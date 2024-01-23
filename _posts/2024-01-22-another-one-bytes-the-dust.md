@@ -9,8 +9,6 @@ toc: true
 comments: true
 ---
 
-# Another One Bytes🙃 the Dust - Google Podcasts to Say its Final Goodbye
-
 I woke up to a rather interesting email today. Making its way into my inbox was a message from Google Podcasts announcing that it's signing off for good in 2024. Yes, folks, you heard it right - one of our favorite podcast platforms is bidding adieu this year. P.S. This could be old news to some, but I missed this until now😂
 
 According to the email, Google is offering a transitional process, allowing its users to migrate show subscriptions to YouTube Music. For those who may not be interested in syncing their shows with YouTube, Google also provides an option to download a file of your show subscriptions that you can import to any app supporting such import.
