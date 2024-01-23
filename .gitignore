@@ -20,4 +20,6 @@ package-lock.json
 
 # Misc
 assets/js/dist
+**/.DS_Store
+*.DS_Store
 assets/.DS_Store
