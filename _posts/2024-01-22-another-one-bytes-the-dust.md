@@ -15,7 +15,7 @@ According to the email, Google is offering a transitional process, allowing its 
 
 The email states that after March 2024, users, at least in the U.S., will no longer be able to listen to podcasts on Google Podcasts, and by June 2024, the option to migrate or export your subscriptions will disappear too.
 
-Need help? \[Migrate your Google Podcasts subscriptions\]\(https://support.google.com/youtubemusic/answer/14151168\)
+Need help? [Migrate your Google Podcasts subscriptions](https://support.google.com/youtubemusic/answer/14151168)
 
 As a seasoned Google Podcast user, even post my switch to an iPhone, this news brings a feeling of melancholy. It's no secret that Google Podcasts held its own charm, a unique user interface and a vast array of features that held steadfast on my daily driver. As for syncing it with YouTube Music, I find myself in a fix. Maybe it's the appeal of Spotify's well-funded platform that's calling out to me. Is the grass really greener on the other side? I guess it's time to find out??
 
