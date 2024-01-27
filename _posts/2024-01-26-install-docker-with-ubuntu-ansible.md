@@ -15,7 +15,7 @@ Here's an error message you might encounter:
 
 [Jump right to the fix](#addressing-the-error-the-following-signatures-couldnt-be-verified-because-the-public-key-is-not-available-no_pubkey-7ea0a9c3f273fcd8)
 
-My intention was to install Docker and Python components to use Ansible to deploy docker-compose files on my Ubuntu host and then install Portainer. I started off with installing the docker playbook `install_docker.yml`, then I ran `install_portainer.yml`. The error I encountered was with `install_docker.yml`, however, I would like to share a bit about the Ansible file type `.yml.j2` and the Jinja2 templating engine.
+My intention was to install Docker and Python components to use Ansible to deploy docker-compose files on my Ubuntu host and then install Portainer. I started off with installing the docker playbook `install_docker.yml`, then I ran `install_portainer.yml`. The error I encountered was with `install_docker.yml`, however, I would like to share a bit about the file type `.yml.j2` and the Jinja2 templating engine.
 
 With Jinja2, you can dynamically customize Docker Compose files based on variables that wouldn't traditionally be defined within them. It offers an added layer of flexibility and customization. Think about scenarios where you need to deploy containers with varying configurations, ports, volumes, or service options. Jinja2 allows this variety without creating separate individual files for each. Instead, variables can be defined and altered at runtime or passed from Ansible playbooks, streamlining the creation and deployment of Docker environments dynamically.
 
