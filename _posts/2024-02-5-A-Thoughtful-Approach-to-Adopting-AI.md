@@ -11,7 +11,7 @@ comments: true
 
 So much hype has settled around OpenAI and its chatbot, ChatGPT, but the impact and implications of AI technology are still at the forefront for many organizations. I'll tell you now, AI is here to stay, and so is Sam Altman 🤣. Remember that crazy weekend in November 2023 when Microsoft seemed oblivious to Sam's firing and rehiring dramas? You'd think that after spending more than $100 million, they would have received a courtesy call. And yet, days later, he returned as co-founder and chief executive.
 
-In case you missed it, Sam Altman, the CEO of OpenAI, was ousted from his position in November 2023 due to alleged mishandling of a significant breakthrough in their secretive Q* project. He was also criticized for his high-handed demeanor and profit-driven strategies that caused divisions amongst the board. He later returned. [(source)](<https://en.wikipedia.org/wiki/Removal_of_Sam_Altman_from_OpenAI>)
+>In case you missed it, Sam Altman, the CEO of OpenAI, was ousted from his position in November 2023 due to alleged mishandling of a significant breakthrough in their secretive Q* project. He was also criticized for his high-handed demeanor and profit-driven strategies that caused divisions amongst the board. He later returned. [(source)](<https://en.wikipedia.org/wiki/Removal_of_Sam_Altman_from_OpenAI>)
 
 Now, onto the topic of this post - taking a moment before plunging into AI adoption. With countless vendors and consulting companies cropping up, trying to sell the latest AI services and tech, it's crucial to pause and focus on some key areas first.
 
@@ -31,7 +31,7 @@ Our decision to build instead of buying primarily centered around **data protect
 
 Given OpenAI's initial absence of a clear privacy policy and Microsoft's emphasis on data privacy in their offerings, 
 
-Per MS: 
+Per Microsoft: 
 >The user's prompts, completions, embeddings, and training data are kept private and not shared with other customers or OpenAI. This data is also not used to improve OpenAI models, Microsoft products or services, or automatically fine-tune Azure OpenAI models for the user's resource. Fine-tuned Azure OpenAI models are only available for the sole use of the customer who created them. [(source)](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy) 
 
 We chose to opt-out from OpenAI and encouraged our team members to wait for our ChatGPT solution. We also addressed HR considerations, such as GDPR requirements and potential employment issues, ensuring that we could store and delete relevant data as necessary. 
@@ -41,7 +41,7 @@ Our objective was to launch a minimal viable product (MVP) within four months, c
 This experience taught me that although there were essential data integrations - like the ability to search our ticketing system or knowledge base to access our business-related information - the frontend investment wasn't entirely worth it. It'll serve your business better to find products that rapidly provide you with an interface and invest primarily in data integration. The models might not necessarily need to train on your data, but they should be capable of reading your data. While users might clamor for frontend improvements - I call these cost-of-living enhancements - such as an improved login experience, chat-saving, or internet browsing capabilities. However, these upgrades don't necessarily positively impact your organization.
 
 OpenAI has since adjusted its policies. With their enterprise service, [https://openai.com/enterprise-privacy](https://openai.com/enterprise-privacy), they now state, 
->"You own your inputs and outputs (where allowed by law)". 
+>"You own your inputs and outputs (where allowed by law)"
 
 We'll see how this statement plays out 😉 but my point is they've developed an effective interface and are now focusing on allowing organizations to integrate with their business systems like SharePoint, custom APIs, and more. 
 
