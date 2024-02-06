@@ -9,7 +9,7 @@ toc: true
 comments: true
 ---
 
-I actually use this script in an Azure DevOps pipeline as I run a private hosted agent within my home lab. If you're interested in knowing more about this, leave me a comment below. Otherwise, for the one-off record update, please see below. With some small tweaks, you can update other record types besides A records, but I will not cover this at this time. Please see the Cloudflare API documentation: https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-update-dns-record
+I actually use this script in an Azure DevOps pipeline as I run a private hosted agent within my home lab. If you're interested in knowing more about this, leave me a comment below. Otherwise, for the one-off record update, please see below. With some small tweaks, you can update other record types besides A records, but I will not cover this at this time. Please see the [`Cloudflare API documentation`](https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-update-dns-record)
 
 This Bash script is designed to automatically update the "A" record for a specified domain name in Cloudflare. "A" records are DNS records that point your domain name to an IP address. This script uses Cloudflare's HTTP API to perform these updates.
 
@@ -49,8 +49,7 @@ The above command makes the script executable. You can execute the script using 
 ./homeservice.greatdomain.com.sh <your-api-token>
 ```
 
-You can also find this script on my github:
-https://github.com/SpaceTerran/Cloudflare-DNS-Updater-Bash
+You can also find this script on my github: [`Cloudflare-DNS-Updater-Bash`](https://github.com/SpaceTerran/Cloudflare-DNS-Updater-Bash)
 
 ```bash
 #!/bin/bash
