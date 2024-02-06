@@ -7,9 +7,10 @@ tags: [Automation, IP Address Management, HTTP Requests, DNS Record Updates, Scr
 render_with_liquid: false
 toc: true
 comments: true
+image:
+  path: /assets/img/myphotos/Cloudflare-DNS-Updater-Bash-Script.jpg
+  alt: Cloudflare DNS Updater Bash Script
 ---
-
-![Cloudflare DNS Updater Bash Script](/assets/img/myphotos/Cloudflare-DNS-Updater-Bash-Script.jpg){: width="1200" height="630" }
 
 I actually use this script in an Azure DevOps pipeline as I run a private hosted agent within my home lab. If you're interested in knowing more about this, leave me a comment below. Otherwise, for the one-off record update, please see below. With some small tweaks, you can update other record types besides A records, but I will not cover this at this time. Please see the [`Cloudflare API documentation`](https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-update-dns-record)
 
