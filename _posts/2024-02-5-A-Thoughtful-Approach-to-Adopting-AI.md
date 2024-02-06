@@ -7,6 +7,9 @@ tags: [AI, ChatGPT, OpenAI, Data Privacy, Sam Altman, Business Strategy, Chatbot
 render_with_liquid: false
 toc: true
 comments: true
+image:
+  path: /assets/img/myphotos/A-Thoughtful-Approach-to-Adopting-AI.jpg
+  alt: "Slow Your Roll: A Thoughtful Approach to Adopting AI"
 ---
 
 So much hype has settled around OpenAI and its chatbot, ChatGPT, but the impact and implications of AI technology are still at the forefront for many organizations. I'll tell you now, AI is here to stay, and so is Sam Altman 🤣. Remember that crazy weekend in November 2023 when Microsoft seemed oblivious to Sam's firing and rehiring dramas? You'd think that after spending more than $100 million, they would have received a courtesy call. And yet, days later, he returned as co-founder and chief executive.
