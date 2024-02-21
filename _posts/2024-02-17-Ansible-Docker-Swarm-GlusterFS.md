@@ -26,7 +26,7 @@ Now, for my example below, I will walk you through how I have it set up in my la
 
 Here are the high-level steps:
 1. Create virtual machines on my Proxmox hosts using templates and Terraform.
-2. Update my Ansible hosts file.
+2. Update an Ansible hosts file.
 3. Run the Ansible playbook, called `swarm.yml`.
 
 ## Creating the Proxmox templates
@@ -250,6 +250,11 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
           - python3-pip
         state: present
 
+    - name: Install Docker Compose using pip
+      ansible.builtin.pip:
+        name: docker-compose, jsondiff
+        state: latest
+
     - name: Start and enable GlusterFS service  # Ensures the GlusterFS service is running
       ansible.builtin.service:
         name: glusterd
@@ -283,20 +288,23 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
     - name: Retrieve Docker Swarm manager token  # Gets token for joining as a manager
       ansible.builtin.shell: docker swarm join-token manager -q
       register: manager_token
-      when: swarm_init is changed  # Executes only if the Swarm was just initialized
       changed_when: false
 
     - name: Retrieve Docker Swarm worker token  # Gets token for joining as a worker
       ansible.builtin.shell: docker swarm join-token worker -q
       register: worker_token
-      when: swarm_init is changed
       changed_when: false
 
 - name: Join remaining managers to Docker Swarm
-  hosts: int_swarm_managers:!int_swarm_managers[0]  # Targets all managers except the first
+  hosts: int_swarm_managers:!int_swarm_managers[0]
   become: true
   tasks:
-    - name: Join Swarm as manager  # Other managers join the Swarm
+    - name: Check Docker Swarm status before attempting to join
+      ansible.builtin.shell: docker info --format '{{ "{{.Swarm.LocalNodeState}}" }}'
+      register: docker_swarm_status
+      changed_when: false
+
+    - name: Join Swarm as manager
       ansible.builtin.shell:
         cmd: docker swarm join --token {{ hostvars[groups['int_swarm_managers'][0]]['manager_token'].stdout }} {{ hostvars[groups['int_swarm_managers'][0]]['ansible_default_ipv4']['address'] }}:2377
       when: hostvars[groups['int_swarm_managers'][0]]['manager_token'].stdout is defined and docker_swarm_status.stdout != "active"
@@ -394,7 +402,7 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
       when: "'/mnt' in ansible_mounts | map(attribute='mount')"
 
 ```
-
+## Running the playbook
 Now, run the command in the directory where your hosts and `swarm.yml` have been created/copied.
 
 ```ansible-playbook swarm.yml ```
