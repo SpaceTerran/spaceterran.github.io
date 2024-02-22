@@ -376,11 +376,13 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
 - name: Mount GlusterFS on all Swarm nodes
   hosts: int_swarm_managers, int_swarm_workers  # Targets both managers and workers for GlusterFS mount
   become: true
+  gather_facts: true
   tasks:
     - name: Ensure GlusterFS volume mounts on boot  # Configures fstab for the GlusterFS volume
       ansible.builtin.lineinfile:
         path: /etc/fstab
-        line: 'localhost:/staging-gfs /mnt glusterfs defaults,_netdev,backupvolfile-server=localhost 0 0'
+        regexp: '^localhost:/staging-gfs\s+/mnt\s+glusterfs'
+        line: 'localhost:/staging-gfs /mnt glusterfs defaults,_netdev 0 0'
         create: true
         mode: '0644'
 
@@ -389,7 +391,7 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
         path: /mnt
         src: 'localhost:/staging-gfs'
         fstype: glusterfs
-        opts: defaults,_netdev,backupvolfile-server=localhost
+        opts: defaults,_netdev
         state: mounted
 
     - name: Adjust permissions and ownership for GlusterFS mount  # Sets proper permissions for the mount
@@ -399,7 +401,6 @@ Below is the actual Ansible playbook. Please ensure you read through each step a
         group: docker
         state: directory
         recurse: true
-      when: "'/mnt' in ansible_mounts | map(attribute='mount')"
 
 ```
 ## Running the playbook
