@@ -9,7 +9,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/copilot-for-microsoft-365-data-exfiltration-machine.jpg
-  alt: Copilot for Microsoft 365 Data exfiltration Machine?
+  alt: Copilot for Microsoft 365, A Data exfiltration Machine?
 ---
 
 So, you have that shiny new MS Copilot license costing $30 per user, per month, and presumably, your users couldn't be happier. The product certainly comes with an impressive array of features. I particularly enjoy the integration with MS Teams, where it's possible to query past conversations from various chats and emails. For instance, imagine you're trying to recall the key dates for one of your projects. MS Copilot will search multiple sources and, in most cases, provide a relevant suggestion or the exact information you're seeking. It will even reference where it found the data, such as in an email or a file attachment. There are numerous examples similar to this. However, I'd like to use a few moments of your time to discuss the "web content" aspect and the numerous plugins that are available for use with MS Copilot.
