@@ -1,5 +1,5 @@
 ---
-title: "Copilot for Microsoft 365 Data Exfiltration Machine?"
+title: "Copilot for Microsoft 365, A Data Exfiltration Machine?"
 author: isaac
 date: 2024-02-24 07:00:00 -0700
 categories: [Artificial Intelligence (AI), Data Protection, Privacy Policies, HR Considerations, Data Integration, Business Strategy, AI Adoption, AI Implementation, Security]
@@ -12,7 +12,7 @@ image:
   alt: Copilot for Microsoft 365 Data exfiltration Machine?
 ---
 
-So, you have that shiny new MS Copilot license costing $30 per user, per month, and presumably, your users couldn't be happier. The product certainly comes with an impressive array of features. I particularly enjoy the integration with MS Teams, where it's possible to query past conversations from various chats and emails. For instance, imagine you're trying to recall the key dates for one of your projects. MS Copilot will search multiple sources and, in most cases, provide a relevant suggestion or the exact information you're seeking. It will even reference where it found the data, such as in an email or a file attachment. There are numerous examples similar to this. However, I'd like to use a few moments of your time to discuss the "web content" aspect and the numerous plugins that are prepped for use with MS Copilot.
+So, you have that shiny new MS Copilot license costing $30 per user, per month, and presumably, your users couldn't be happier. The product certainly comes with an impressive array of features. I particularly enjoy the integration with MS Teams, where it's possible to query past conversations from various chats and emails. For instance, imagine you're trying to recall the key dates for one of your projects. MS Copilot will search multiple sources and, in most cases, provide a relevant suggestion or the exact information you're seeking. It will even reference where it found the data, such as in an email or a file attachment. There are numerous examples similar to this. However, I'd like to use a few moments of your time to discuss the "web content" aspect and the numerous plugins that are available for use with MS Copilot.
 
 Let's start by addressing the web content feature. This tool allows MS Copilot to search web content while answering prompts. My immediate reaction was, "How are these queries handled? Does it remain within my tenant? Is my company data staying within our tenant?" To find out, let's examine this link: [Microsoft Copilot for Microsoft 365 and web content](https://learn.microsoft.com/en-us/microsoft-365-copilot/microsoft-365-copilot-privacy#microsoft-copilot-for-microsoft-365-and-web-content).
 
