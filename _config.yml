@@ -16,7 +16,13 @@ timezone: America/Denver
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-readme-index
 
+readme_index:
+  enabled:          true
+  remove_originals: false
+  with_frontmatter: false
+ 
 title: Space Terran # the main title
 
 tagline: Decoding IT Infrastructure | Homelab Adventures | Expert insights, Code & Walkthroughs # it will display as the sub-title
