@@ -27,3 +27,6 @@ gem 'jekyll-seo-tag'
 
 #sitemap
 gem 'jekyll-sitemap'
+
+#jekyll-readme-index
+gem "jekyll-readme-index"
