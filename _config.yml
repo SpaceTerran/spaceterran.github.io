@@ -13,6 +13,9 @@ timezone: America/Denver
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 title: Space Terran # the main title
 
