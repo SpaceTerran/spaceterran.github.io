@@ -2,8 +2,8 @@
 title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansiable Playbook - Part 1"
 author: isaac
 date: 2024-04-08 07:00:00 -0700
-categories: [Ubuntu, Template, Ansiable, Proxmox, Cloud Computing, Virtualization, DevOps, Automation, Home Lab]
-tags: [qm set, qm create, Cloud-Init, Proxmox, Cloud-Init, Ubuntu, Ansible, Ansible Playbook, Deployment, Scripting, VM Templates, DevOps Practices, Configuration Management, SSH, Cloud Images, K3s, Docker Swarm, Cloud Infrastructure, Cloud Automation, Home Lab Setup, System Administration, Virtual Machine Management, Proxmox VE, Cloud-Init Template, Proxmox CLI, Bash Scripting, Home Lab Automation]
+categories: [DevOps, Cloud Computing]
+tags: [Ubuntu, Proxmox, Ansible, Deployment, VM Templates, DevOps Practices, Cloud-Init Template, Home Lab Automation]
 render_with_liquid: false
 toc: true
 comments: true

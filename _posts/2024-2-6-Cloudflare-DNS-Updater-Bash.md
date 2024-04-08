@@ -2,8 +2,8 @@
 title: "Cloudflare DNS Updater Bash Script"
 author: isaac
 date: 2024-02-06 02:00:00 -0700
-categories: [Bash Scripting, Cloudflare, API Use and Integration, Server Management]
-tags: [Automation, IP Address Management, HTTP Requests, DNS Record Updates, Script Execution, Command Line Usage, Error Handling, Public IP, Shell Script, Cloudflare API]
+categories: [Scripting, Cloudflare, Automation]
+tags: [Bash Scripting, DNS Record Updates, Cloudflare API, Error Handling]
 render_with_liquid: false
 toc: true
 comments: true

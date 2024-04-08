@@ -2,8 +2,8 @@
 title: "Slow Your Roll: A Thoughtful Approach to Adopting AI"
 author: isaac
 date: 2024-02-5 18:00:00 +0800
-categories: [Artificial Intelligence (AI), OpenAI, ChatGPT, Ollama, Ollama WebUi, Microsoft, Sam Altman, Data Protection, Chatbot Development, Privacy Policies, AI Adoption, HR Considerations, Data Integration, Large Language Models (LLMs)]
-tags: [AI, ChatGPT, OpenAI, Data Privacy, Sam Altman, Business Strategy, Chatbot Development, Microsoft Cognitive Services, Minimal Viable Product, Knowledge Base, AI Implementation, Organizational Efficiency, Future of AI, AI Ethics, AI Applications, GDPR, AI in Business, Ollama, Ollama WebUi]
+categories: [AI and Data Security, Business Strategy, Microsoft]
+tags: [AI Technologies, Data Privacy, AI Ethics, AI Applications, AI in Business, GDPR]
 render_with_liquid: false
 toc: true
 comments: true
