@@ -2,8 +2,8 @@
 title: "Ansible Playbook for Deploying ollama-webui & liteLLM-proxy to connect to Azure OpenAI"
 author: isaac
 date: 2024-02-07 02:00:00 -0700
-categories: [Ansible Playbook, Deployment Automation, Azure OpenAI, Docker, Azure Cognitive Services]
-tags: [ollama-webui, liteLLM-proxy, Ansible, Docker, Azure, API, YAML, Containers, Automation, NFS Server, Python Interpreter, OpenAI, Azure Cognitive Services, Secrets File, Security]
+categories: [DevOps, Ansible, Azure, Docker]
+tags: [ollama-webui, liteLLM-proxy, API, YAML, Automation, OpenAI, Security]
 render_with_liquid: false
 toc: true
 comments: true

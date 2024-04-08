@@ -2,8 +2,8 @@
 title: "Copilot for Microsoft 365, A Data Exfiltration Machine?"
 author: isaac
 date: 2024-02-24 07:00:00 -0700
-categories: [Artificial Intelligence (AI), Data Protection, Privacy Policies, HR Considerations, Data Integration, Business Strategy, AI Adoption, AI Implementation, Security]
-tags: [AI, Data Privacy, Business Strategy, Chatbot Development, Microsoft Cognitive Services, AI Implementation, Knowledge Base, Organizational Efficiency, Future of AI, GDPR, AI Ethics, AI in Business, Advanced Analytics, Communications, Service Desk Augmentation, Content Creation, Security]
+categories: [AI and Data Security, Microsoft, Business Strategy]
+tags: [AI Technologies, Data Privacy, GDPR, AI Ethics, Security]
 render_with_liquid: false
 toc: true
 comments: true

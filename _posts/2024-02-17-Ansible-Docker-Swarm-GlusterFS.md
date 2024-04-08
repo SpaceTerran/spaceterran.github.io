@@ -2,8 +2,8 @@
 title: "Ansible Playbook for Deploying Docker Swarm and GlusterFS"
 author: isaac
 date: 2024-02-17 02:00:00 -0700
-categories: [Ansible, Ansible Playbook, Docker, Docker Swarm]
-tags: [Docker Swarm, GlusterFS, Ansible, Proxmox, Terraform, Ubuntu Server, Virtual Machine Provisioning, Deployment Guide, High Availability, James Turland, Jim's Garage, Techno Tim]
+categories: [DevOps, Ansible, Docker]
+tags: [Docker Swarm, GlusterFS, Proxmox, High Availability, Home Lab Automation]
 render_with_liquid: false
 toc: true
 comments: true
