@@ -146,3 +146,4 @@ qm template 1234
 
 Stay tuned for the next post where I will convert the above into an Ansible playbook. Let me know how it works for you, or if you have any questions. Please leave a comment or give a like below if you found this helpful.
 
+This is the continuation of this post [“(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansible Playbook - Part 2”](https://spaceterran.com/posts/Ansible-Proxmox-Ubuntu-Template-Part-2/)
