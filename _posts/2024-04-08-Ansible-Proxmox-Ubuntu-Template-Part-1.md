@@ -1,5 +1,5 @@
 ---
-title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansiable Playbook - Part 1"
+title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansible Playbook - Part 1"
 author: isaac
 date: 2024-04-08 07:00:00 -0700
 categories: [DevOps, Cloud Computing]
