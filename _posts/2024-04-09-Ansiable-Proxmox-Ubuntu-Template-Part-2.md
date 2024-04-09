@@ -283,6 +283,6 @@ The playbook includes tasks for enabling the QEMU Agent, resizing the VM's disk,
       changed_when: convert_template.rc == 0
       failed_when: convert_template.rc not in [0]
 ```
-Find the complete scripts and user-data file in the repo: [Ansible-Proxmox-Ubuntu-Cloud-Init-Template](https://github.com/SpaceTerran/Ansiable-Proxmox-Ubuntu-Cloud-Init-Template).
+Find the complete scripts and user-data file in the repo: [Ansible-Proxmox-Ubuntu-Cloud-Init-Template](https://github.com/SpaceTerran/Ansible-Proxmox-Ubuntu-Cloud-Init-Template).
 
 Let me know what you think of this script in the comments below. Help me out by liking the repo or giving it a star.
