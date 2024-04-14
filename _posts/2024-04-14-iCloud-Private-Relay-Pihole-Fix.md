@@ -8,7 +8,7 @@ render_with_liquid: false
 toc: true
 comments: true
 image:
-  path: /assets/img/myphotos/Safari-cant-connect-to-iCloud-Private-Relay-error.jpg
+  path: /assets/img/myphotos/safari-cant-connect-to-iCloud-private-relay-error.jpg
   alt: Safari can’t connect to iCloud Private Relay
 ---
 
