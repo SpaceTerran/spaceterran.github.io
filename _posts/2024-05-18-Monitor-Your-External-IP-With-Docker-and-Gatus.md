@@ -222,7 +222,7 @@ Below, I will also share my Ansible script used to build and deploy this contain
       restart_policy: unless-stopped  # Auto-restart policy
 
 ```
-## Gatus configuration
+### Gatus configuration
 Below is the code snippet of my Gatus configuration. If you need help setting up Gatus, please refer to the links above for self-hosting Gatus and using the code below. Ensure you update it based on your IP and requirements.
 
 ```yaml
