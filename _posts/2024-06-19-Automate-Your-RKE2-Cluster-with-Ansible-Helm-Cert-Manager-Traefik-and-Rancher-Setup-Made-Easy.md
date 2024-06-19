@@ -24,15 +24,15 @@ In my case, I already have the VMs following my previous guide: [Seamlessly Sett
 ## The Real Getting Started 🙃
 First off, if you want to check out the GitHub repo, head on over here: [GitHub Repo](https://github.com/SpaceTerran/ansible-rancher-traefik-ssl). Once you have downloaded all the files to your local environment, the first step you are going to want to do is create your `secrets.yaml` file.
 
-### Create `secrets.yml`
-This `secrets.yml` is quite simple and only stores the Cloudflare token. This playbook uses the DNS challenge method for validating the Cert-Manager certificates. If DNS challenge validation doesn't mean anything to you or you need more information on the token you need to create or how this works, head over to this: [Cloudflare - cert-manager Documentation](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/) 
+### Create `secrets.yaml`
+This `secrets.yaml` is quite simple and only stores the Cloudflare token. This playbook uses the DNS challenge method for validating the Cert-Manager certificates. If DNS challenge validation doesn't mean anything to you or you need more information on the token you need to create or how this works, head over to this: [Cloudflare - cert-manager Documentation](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/) 
 >Note we are using `API Tokens`, not `API Keys`...
  {: .info-tip }
 
 #### Step 1: Initialize the Vault File
 To create a new encrypted file, use the `ansible-vault create` command. This will prompt you to choose a password that will be used for encrypting and decrypting the file.
 ```bash
-ansible-vault create secrets.yml
+ansible-vault create secrets.yaml
 ```
 #### Step 3: Add Your Secret
 Once you run the `create` command, an editor will open (usually `vi` or `nano`, depending on your system’s configuration). Here, you can add your secrets in YAML format. For instance, to store `CF_TOKEN`:
