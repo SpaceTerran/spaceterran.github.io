@@ -65,6 +65,10 @@ Before running the script, ensure you have the following configurations in place
      M ![Select api](/assets/img/myphotos/Gmail-with-Ollama/13_create_creds_select_scope_save.png){: width="350"}
    <br>
    6. Now select "Web application" as the type, then name your application or leave it as the default. The most important part is to add a URI in the "Authorized Redirect URIs" field; be sure to enter `http://localhost:8080`. Ensure you download the credentials here—this file will be used as your `credentials.json`. Simply rename the file and add it to the same directory where you are running this Python script.
+
+   >Warning: When setting the URI, it is very possible that you could be running an application on port 8080 from where you are running this script. If that is the case, feel free to change the port to something else, like `http://localhost:8181`. If you do this, please note you will need to update the code on lines 68 and 69.
+   {: .prompt-warning }   
+   
    <br>
      N ![Select New Project](/assets/img/myphotos/Gmail-with-Ollama/14_create_creds_app_type.png){: width="400"}
      O ![Select api](/assets/img/myphotos/Gmail-with-Ollama/15_create_creds_download.png){: width="300"}
