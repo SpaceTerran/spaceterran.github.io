@@ -326,6 +326,6 @@ if __name__ == '__main__':
 
 This Python script exemplifies the seamless integration of Ollama's self-hosted AI system with Gmail for efficient email summarization. While currently tailored for summarization, this foundational script holds vast potential for future enhancements, including dynamic email categorization and management. 
 
-In today's rapidly evolving technological landscape, it's crucial to ask yourself daily how AI can enhance your life. Embrace this change and integrate AI into your routine to stay ahead of the curve. Adapt to the new AI-driven world, or risk being left behind. You GOT this!
+In today's rapidly evolving technological landscape, it's crucial to ask yourself daily how AI can enhance your life. Embrace this change and integrate AI into your routine to stay ahead of the curve. You GOT this!
 
 I'd love to hear your thoughts and experiences with this script. Your comments and feedback are valuable to me!
