@@ -12,7 +12,7 @@ image:
   alt: 
 ---
 
-# Configure MS-01 BIOS to Enable Intel® AMT/Intel® vPro™
+# Configure Minisforum MS-01 BIOS to Enable Intel® AMT/Intel® vPro™
 
 Before diving in, I want to mention that I made several adjustments to the power management settings. While my objective wasn't to achieve the most optimized or power-efficient setup, these changes ensure that the network adapters are consistently available, both for Wake On LAN and AMT/vPro. Your setup requirements may differ. Note: I will not cover Wake On LAN in this post.
 
