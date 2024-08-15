@@ -18,7 +18,7 @@ This is a quick update post. The goal is to passthrough the MS-01 iGPU. Anytime 
 
 ## Sources and References
 
-From the [Level1Techs.com](http://level1techs.com/) forums, a post by [shadowimmage](https://forum.level1techs.com/u/shadowimmage) - Link to the post: [I915 SR-IOV on i9-13900H (Minisforum MS-01) Proxmox PVE Kernel 6.5 - Jellyfin Full Hardware Accelerated LXC](https://forum.level1techs.com/t/i915-sr-iov-on-i9-13900h-minisforum-ms-01-proxmox-pve-kernel-6-5-jellyfin-full-hardware-accelerated-lxc/209943), which then led to [Proxmox VE 8.2: Windows 11 vGPU (VT-d) Passthrough with Intel Alder Lake](https://www.derekseaman.com/2024/07/proxmox-ve-8-2-windows-11-vgpu-vt-d-passthrough-with-intel-alder-lake.html), and finally to [strongtz/i915-sriov-dkms](https://github.com/strongtz/i915-sriov-dkms).
+From the [Level1Techs.com](https://level1techs.com/) forums, a post by [shadowimmage](https://forum.level1techs.com/u/shadowimmage) - Link to the post: [I915 SR-IOV on i9-13900H (Minisforum MS-01) Proxmox PVE Kernel 6.5 - Jellyfin Full Hardware Accelerated LXC](https://forum.level1techs.com/t/i915-sr-iov-on-i9-13900h-minisforum-ms-01-proxmox-pve-kernel-6-5-jellyfin-full-hardware-accelerated-lxc/209943), which then led to [Proxmox VE 8.2: Windows 11 vGPU (VT-d) Passthrough with Intel Alder Lake](https://www.derekseaman.com/2024/07/proxmox-ve-8-2-windows-11-vgpu-vt-d-passthrough-with-intel-alder-lake.html), and finally to [strongtz/i915-sriov-dkms](https://github.com/strongtz/i915-sriov-dkms).
 
 Below, I have summarized all the steps with screenshots from the Proxmox console and running commands to get the vGPU working and Plex transcoding on Ubuntu 24.04 hosted in Docker.
 
