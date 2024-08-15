@@ -8,7 +8,7 @@ render_with_liquid: false
 toc: true
 comments: true
 image:
-  path: /assets/img/myphotos/vgpu/vgpu.png
+  path: /assets/img/myphotos/vgpu/vGPU.png
   alt: 
 ---
 
