@@ -200,7 +200,7 @@ iface enp2s0f0np0 inet manual
 
 iface enp87s0 inet manual
 
-auto enp89s0
+auto enp89s0 ## <--- Add this line here
 iface enp89s0 inet manual
 
 iface enp2s0f1np1 inet manual
