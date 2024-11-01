@@ -133,7 +133,7 @@ Now the following is quite manual. I highly recommend using something like Ansib
 Navigate to:
 
 ```bash
-cd /mnt/.ix-apps/docker/MyApps/Traefik
+cd /mnt/.ix-apps/docker/MyApps/traefik
 ```
 
 Create and edit the `docker-compose.yaml` file:
