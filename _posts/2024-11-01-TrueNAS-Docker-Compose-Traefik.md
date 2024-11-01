@@ -107,7 +107,7 @@ cd /mnt/.ix-apps/docker
 
 ### Folder Structure
 
-Now I chose to place a new folder contained in the Docker installation directory. This may not be wise long-term as upgrades could cause issues, but for now, this is where I placed it. I created a folder for MyApps and the folder structure for Traefik and Portainer for the demonstration.
+Now I chose to place a new folder contained in the Docker installation directory `/mnt/.ix-apps/docker`. This may not be wise long-term as upgrades could cause issues, but for now, this is where I placed it. I created a folder for MyApps and the folder structure for Traefik and Portainer for the demonstration.
 
 Create folders for your applications:
 
