@@ -78,12 +78,16 @@ Now we need to make a couple of changes in the GUI. It's very possible these cou
 2. Choose a pool.  
    ![App Pool Selection](/assets/img/myphotos/truenas_docker_compose_traefik/App_Pool_Selection.png){: width="400" .normal }
 
+3. In my case, I chose my spinning disks. I'm only planning on running Traefik and a couple of smaller containers like Pi-hole or Plex, so placing this on my faster storage is just not needed. Select Choose.
+  ![](/assets/img/myphotos/truenas_docker_compose_traefik/Pool_Selection_Spinner_Disks.png)
+  ![](/assets/img/myphotos/truenas_docker_compose_traefik/Pool_Selection_Choose.png)
+
 3. Once you see the green check box, you are ready to head back to the Shell.  
    ![Docker Installation Green Check](/assets/img/myphotos/truenas_docker_compose_traefik/Docker_Installation_Green_Check.png){: width="400" .normal }
 
 ## Locating the Docker Installation
 
-Now that you have SSH'ed into your Shell, you will want to elevate to SUDO for the rest of the commands.
+Login to SSH. Now that you have SSH'ed into your shell, you will want to elevate to SUDO for the rest of the commands. This is accomplished by the following command. When asked for a password, ensure you put in your admin password. *Note that typing the password is not needed if you selected "allow all sudo commands with no password."*
 
 ```bash
 sudo su
@@ -103,6 +107,8 @@ cd /mnt/.ix-apps/docker
 
 ### Folder Structure
 
+Now I chose to place a new folder contained in the Docker installation directory. This may not be wise long-term as upgrades could cause issues, but for now, this is where I placed it. I created a folder for MyApps and the folder structure for Traefik and Portainer for the demonstration.
+
 Create folders for your applications:
 
 ```bash
@@ -121,6 +127,8 @@ mkdir MyApps/portainer/data
 {: .prompt-warning }
 
 ### Configuring Traefik
+
+Now the following is quite manual. I highly recommend using something like Ansible or using SSH to push the files from your local to these directories, but for these demonstrations, I will just show you each file that I create and provide the contents of each configuration file. Again, this is just a demonstration, so you may have other needs and can update the files as you see fit.
 
 Navigate to:
 
@@ -269,6 +277,8 @@ cd ..
 ![Traefik Directory Back](/assets/img/myphotos/truenas_docker_compose_traefik/Traefik_Directory_Back.png)
 
 ## Creating External Network
+
+Now you will need to create the external network since, in the Docker Compose file, it's listed as external. Both Traefik and the test Portainer image you will use for testing will share this network. Remember, the name here must match the docker-compose.yaml file you created or edited in the previous step.
 
 ```bash
 docker network create proxy_network
