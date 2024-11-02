@@ -1,7 +1,7 @@
 ---
 title: "Hands-On with TrueNAS SCALE 24.10 Electric Eel: Configure Docker Compose and Traefik - Working SSL Certificates"
 author: isaac
-date: 2024-09-30 07:00:00 -0700
+date: 2024-11-01 07:00:00 -0700
 categories: [TrueNAS, Docker, Docker Compose, Networking, HomeLab, SSL Certificates, Tutorials and Guides]
 tags: [TrueNAS SCALE, TrueNAS SCALE 24.10, Electric Eel, Docker Compose, Traefik, SSL Certificates, Home Server, Portainer, Cloudflare]
 render_with_liquid: false
