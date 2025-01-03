@@ -53,9 +53,7 @@ Everything has been running flawlessly since May 2024, and I currently have thre
 
 #### Insights and Concerns:
 
-After reading this post on the Netdata community forums:  
-[Netdata [1hour_memory_hw_corrupted](https://community.netdata.cloud/t/1hour-memory-hw-corrupted/2104)]  
-I decided to share my experience here. It seems this might be a one-off blip rather than the start of a hardware issue??? The affected unit has been rebooted, and I’ve had no further issues for over two weeks.
+After reading this post on the Netdata community forums: Netdata [1hour_memory_hw_corrupted](https://community.netdata.cloud/t/1hour-memory-hw-corrupted/2104) I decided to share my experience here. It seems this might be a one-off blip rather than the start of a hardware issue??? The affected unit has been rebooted, and I’ve had no further issues for over two weeks.
 
 #### Next Steps:
 
