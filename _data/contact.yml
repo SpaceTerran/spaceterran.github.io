@@ -1,18 +1,22 @@
 #  The contact options.
 
-- type: github
-  icon: "fab fa-github"
+- type: links
+  icon: "fas fa-link"
+  url: https://spctrn.com/find-spaceterran
 
-- type: twitter
-  icon: "fa-brands fa-x-twitter"
+# - type: github
+#   icon: "fab fa-github"
+
+# - type: twitter
+#   icon: "fa-brands fa-x-twitter"
 
 # - type: email
 #   icon: "fas fa-envelope"
 #   noblank: true # open link in current tab
 
-- type: youtube
-  icon: "fa-brands fa-youtube"
-  url: https://www.youtube.com/@SpaceTerran
+# - type: youtube
+#   icon: "fa-brands fa-youtube"
+#   url: https://www.youtube.com/@SpaceTerran
 
 - type: rss
   icon: "fas fa-rss"
@@ -42,3 +46,4 @@
 # - type: threads
 #   icon: 'fa-brands fa-threads'
 #   url: ''                   # Fill with your Threads profile link
+
