@@ -4,6 +4,7 @@ icon: fas fa-bullhorn
 order: 4
 ---
 
+[Find me across the web!](https://spctrn.com/find-spaceterran)
 
 Please wait a moment for the Google Forms to load. Looking forward to hearing from you!
 
