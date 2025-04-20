@@ -181,12 +181,12 @@ resource "aws_iam_policy" "terraform_state" {
       {
         Effect = "Allow"
         Action = ["s3:GetObject", "s3:PutObject"]
-        Resource = "${aws_s3_bucket.terraform_state.arn}/*/terraform.tfstate"
+        Resource = "${aws_s3_bucket.terraform_state.arn}/**/terraform.tfstate"
       },
       {
         Effect = "Allow"
         Action = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
-        Resource = "${aws_s3_bucket.terraform_state.arn}/*/terraform.tfstate.tflock"
+        Resource = "${aws_s3_bucket.terraform_state.arn}/**/terraform.tfstate.tflock"
       }
     ]
   })
