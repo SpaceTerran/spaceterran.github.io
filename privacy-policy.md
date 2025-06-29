@@ -5,8 +5,6 @@ description: Privacy policy for users of this authentication service.
 permalink: /privacy-policy/
 ---
 
-# Privacy Policy
-
 _Updated: 2025-06-29_
 
 Your privacy is important. This policy describes how we collect, use, and protect your information when you use this authentication service ("the Service").
@@ -48,8 +46,4 @@ We may update this policy from time to time. Changes will be posted on this page
 
 ## Contact
 
-If you have questions or concerns about your privacy, please contact the administrator at isaac@spaceterran.com.
-
----
-
-_Last updated: 2025-06-29_
+If you have questions or concerns about your privacy, please contact the administrator using the [contact me](https://spaceterran.com/contact-me/) page.
