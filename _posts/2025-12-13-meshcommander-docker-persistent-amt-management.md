@@ -265,6 +265,6 @@ If the computer persists after clearing your browser cache, you're all set!
 
 Now when I need to manage one of my MS-01 vPro-enabled machines, I just open the URL, my computers are already listed, and I click connect. No more re-entering the same information every time I clear my browser cache or switch devices.
 
-The full project is available on my GitHub: [MeshCommander Docker](https://github.com/spaceterran/meshcomm-serv-persit-docker)
+The full project is available on my GitHub: [MeshCommander Docker](https://github.com/SpaceTerran/meshcmd-server-persistent)
 
 Let me know if this helped you or if you have a different approach to managing your MS-01 devices. I'm always happy to hear your thoughts in the comments section below! 🚀
