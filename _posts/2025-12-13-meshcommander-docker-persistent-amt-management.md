@@ -43,7 +43,7 @@ The modifications I made add server-side persistence for the computer list, allo
 - **Persistent computer list** – Survives browser cache clears, works across devices and browsers
 - **Docker-based** – Deploy once, access from anywhere on your network
 - **Traefik-ready** – Built-in labels for reverse proxy with SSL
-- **Node.js 16** – Compatibility with newer versions Node.js
+- **Node.js 16** – Downgraded to overcome issue with newer versions Node.js
 
 ## How It Works
 
