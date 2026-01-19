@@ -28,3 +28,6 @@ assets/js/dist
 **/.DS_Store
 *.DS_Store
 assets/.DS_Store
+
+# Local writing style prompt
+.writing-style-prompt.md
