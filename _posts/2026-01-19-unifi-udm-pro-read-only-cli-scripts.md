@@ -340,3 +340,9 @@ And even if you never automate a single change, these scripts are still great wh
 - Reference submodule (give it a star): [https://github.com/sirkirby/unifi-network-mcp](https://github.com/sirkirby/unifi-network-mcp)
 
 If you end up using this, I’d love to hear what you’re automating in your lab (and what UniFi task you *wish* was easier). Drop a comment and let’s compare notes.
+
+<br><br>
+
+<small>
+**Note:** UniFi/UDM Pro are trademarks of Ubiquiti Inc. This project isn’t affiliated with Ubiquiti. The `unifi-network-mcp` submodule is the work of [sirkirby](https://github.com/sirkirby/unifi-network-mcp) and is included here as a reference. Third‑party Python packages are used under their respective licenses (see `requirements.txt`).
+</small>
