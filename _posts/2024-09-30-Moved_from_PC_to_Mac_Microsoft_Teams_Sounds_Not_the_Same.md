@@ -3,7 +3,7 @@ title: "Moved from PC to Mac? Microsoft Teams Sounds Not the Same? Feeling lost 
 author: isaac
 date: 2024-09-30 07:00:00 -0700
 categories: [Microsoft, MS Teams, Tutorials and Guides, Short Posts]
-tags: [MS, Microsoft, MS Teams, Teams, Sound On]
+tags: [Microsoft Teams, Sound On]
 render_with_liquid: false
 toc: true
 comments: true

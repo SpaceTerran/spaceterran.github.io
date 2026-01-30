@@ -3,7 +3,7 @@ title: Error's Enccountered While Installing Docker on Ubuntu 22.04 using Ansaib
 author: isaac
 date: 2024-01-26 18:00:00 +0800
 categories: [DevOps, Ansible, Docker]
-tags: [Troubleshooting, Ubuntu, Docker-compose, Error Fix, Security, Jinja2, Home Lab Automation]
+tags: [Troubleshooting, Ubuntu, Docker Compose, Error Fix, Security, Jinja2, Homelab, Ansible, Docker]
 render_with_liquid: false
 toc: true
 comments: true

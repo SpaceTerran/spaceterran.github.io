@@ -3,7 +3,7 @@ title: "Automate Your RKE2 Cluster with Ansible: Helm, Cert-Manager, Traefik, an
 author: isaac
 date: 2024-06-19 07:00:00 -0700
 categories: [DevOps, Kubernetes, Ansible, Automation, Home Lab]
-tags: [Ansible, RKE2, Kubernetes, Helm, Cert-Manager, Traefik, Rancher, Automation, Infrastructure as Code, Cluster Management, Home Lab Projects]
+tags: [Ansible, RKE2, Kubernetes, Helm, Cert-Manager, Traefik, Rancher, Automation, Infrastructure as Code, Cluster Management, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

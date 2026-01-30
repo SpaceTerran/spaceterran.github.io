@@ -3,7 +3,7 @@ title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansib
 author: isaac
 date: 2024-04-08 07:00:00 -0700
 categories: [DevOps, Cloud Computing]
-tags: [Ubuntu, Proxmox, Ansible, Deployment, VM Templates, DevOps Practices, Cloud-Init Template, Home Lab Automation]
+tags: [Ubuntu, Proxmox, Ansible, Deployment, VM Templates, DevOps Practices, Cloud-Init Template, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

@@ -3,7 +3,7 @@ title: "Seamlessly Setting Up Server Infrastructure for RKE2 with Semaphore UI(S
 author: isaac
 date: 2024-05-01 07:00:00 -0700
 categories: [DevOps, Kubernetes, Proxmox, Ansible, Scripting, Automation]
-tags: [Proxmox, Ansible, RKE2, Semaphore UI, SemUI, qm, Infrastructure as Code, Container Infrastructure]
+tags: [Proxmox, Ansible, RKE2, Semaphore UI, qm, Infrastructure as Code, Container Infrastructure, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

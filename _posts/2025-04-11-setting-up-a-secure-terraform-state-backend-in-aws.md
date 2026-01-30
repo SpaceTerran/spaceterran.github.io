@@ -3,7 +3,7 @@ title: Setting Up a Secure Terraform State Backend in AWS
 author: isaac
 date: 2025-04-11 07:00:00 -0700
 categories: [DevOps, Terraform]
-tags: [terraform, aws, infrastructure, s3, security]
+tags: [Terraform, AWS, Infrastructure as Code, S3, Security]
 render_with_liquid: false
 toc: true
 comments: true
