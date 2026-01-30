@@ -3,7 +3,7 @@ title: "GIPHY Missing In MS Teams(new), Oh nooo!"
 author: isaac
 date: 2024-03-25 07:00:00 -0700
 categories: [Microsoft, MS Teams]
-tags: [GIPHY, MS Teams, satire]
+tags: [GIPHY, Microsoft Teams, Satire]
 render_with_liquid: false
 toc: true
 comments: true

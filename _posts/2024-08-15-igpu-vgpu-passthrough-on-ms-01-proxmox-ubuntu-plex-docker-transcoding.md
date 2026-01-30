@@ -3,7 +3,7 @@ title: "iGPU(vGPU) Passthrough on MS-01: Proxmox, Ubuntu, and Plex Docker Transc
 author: isaac
 date: 2024-08-15 07:00:00 -0700
 categories: [Proxmox, Tutorials and Guides, Home Lab, Plex, Docker]
-tags: [Proxmox, Ubuntu, Docker, Plex, iGPU, vGPU, Intel Iris Xe Graphics, MS-01, Hardware Transcoding, Proxmox VE, Passthrough Setup]
+tags: [Proxmox, Ubuntu, Docker, Plex, iGPU, vGPU, Intel Iris Xe Graphics, Minisforum MS-01, Hardware Transcoding, Passthrough Setup, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

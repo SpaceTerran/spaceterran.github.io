@@ -3,7 +3,7 @@ title: The Beginning
 author: isaac
 date: 2024-01-21 19:00:00 +0800
 categories: [first post]
-tags: [the beginning]
+tags: [The Beginning]
 render_with_liquid: false
 toc: false
 comments: false

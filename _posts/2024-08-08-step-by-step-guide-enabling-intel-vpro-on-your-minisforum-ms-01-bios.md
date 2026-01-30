@@ -3,7 +3,7 @@ title: "Step-by-Step Guide: Enabling Intel® vPro™ on Your Minisforum MS-01"
 author: isaac
 date: 2024-08-08 07:00:00 -0700
 categories: [Remote Access, IT Administration, Proxmox, Tutorials and Guides]
-tags: [Intel® vPro™, Intel® AMT, MS-01, Minisforum, MeshCommander, KVM Over IP]
+tags: [Intel® vPro™, Intel® AMT, Minisforum MS-01, MeshCommander, KVM Over IP, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

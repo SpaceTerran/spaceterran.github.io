@@ -3,7 +3,7 @@ title: "A Better Way to Run MeshCommander in Your Homelab (Intel vPro + Docker)"
 author: isaac
 date: 2025-12-13 07:00:00 -0700
 categories: [Remote Access, Docker, HomeLab, Tutorials and Guides]
-tags: [Intel® vPro™, Intel® AMT, MeshCommander, MS-01, Minisforum, Docker, Docker Compose, Traefik]
+tags: [Intel® vPro™, Intel® AMT, MeshCommander, Minisforum MS-01, Docker, Docker Compose, Traefik, Homelab]
 render_with_liquid: false
 toc: true
 comments: true

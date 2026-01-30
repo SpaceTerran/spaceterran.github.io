@@ -3,7 +3,7 @@ title: "Netdata Memory Alert on Minisforum MS-01: My Experience and Thoughts"
 author: isaac
 date: 2025-01-02 07:00:00 -0700
 categories: [Troubleshooting, HomeLab]
-tags: [Netdata, Performance Monitoring, Minisforum MS-01, Memory Diagnostics, RAM Issues, Homelab Hardware]
+tags: [Netdata, Performance Monitoring, Minisforum MS-01, Memory Diagnostics, RAM Issues, Homelab]
 render_with_liquid: false
 toc: true
 comments: true
