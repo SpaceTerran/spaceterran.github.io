@@ -204,6 +204,12 @@ The project template is available on GitHub. Fork it, host it on your own Gitea 
 
 - **Source:** [github.com/SpaceTerran/TerraScan](https://github.com/SpaceTerran/TerraScan)
 
+---
+
+### Update: Impact analysis *(Jan 31, 2026)*
+
+*Original post: Jan 30, 2026.* TerraScan now supports **optional impact analysis**. When enabled (default), the bot runs a **secondary AI pass** before the main diff review: for each changed file it analyzes what’s affected, potential impacts, and what to verify, and finds related files (e.g. imports/references). That context is fed into the main reviewer, and the PR summary comment includes an **Impact Analysis** subsection with the identified impacts and files requiring attention. Inline comments can include **code snippets** for context. You can turn it off with `impact_analysis_enabled: false` in `config/review-config.yml` to use the original single-pass review. See the [repo README](https://github.com/SpaceTerran/TerraScan) for the new config options (`impact_token_budget`, `impact_max_files`, `impact_include_references`) and the “What’s new” section.
+
 <br><br>
 
 <small>
