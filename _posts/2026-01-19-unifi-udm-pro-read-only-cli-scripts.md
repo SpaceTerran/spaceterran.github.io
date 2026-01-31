@@ -346,9 +346,9 @@ If you end up using this, I’d love to hear what you’re automating in your la
 
 ---
 
-### Update: DNS scripts (policy-based static DNS)
+### Update: DNS scripts (policy-based static DNS) *(Jan 31, 2026)*
 
-The repo’s **DNS scripts were updated** after this post was published. The project now uses **policy-based static DNS** (UniFi Network → Settings → Policy Table → DNS Records; API `/proxy/network/v2/api/site/{site}/static-dns`). The earlier scripts (`list_dns_records`, `view_dns_record`, `create_dns_record`, etc.) targeted **local/client hostnames** (per-device, MAC-based; UniFi “user” API with `local_dns_record`). That was not the originally intended design. If you’re following this post and want to work with gateway-level static DNS (e.g. `myserver.example.com` → `192.168.1.100`), use the new scripts instead: `list_policy_dns_records.py`, `view_policy_dns_record.py`, `create_policy_dns_record.py`, `update_policy_dns_record.py`, `delete_policy_dns_record.py`. See the [repo README](https://github.com/SpaceTerran/udm-python-tools) for usage and JSON format.
+*Original post: Jan 19, 2026.* The repo’s **DNS scripts were updated** after this post was published. The project now uses **policy-based static DNS** (UniFi Network → Settings → Policy Table → DNS Records; API `/proxy/network/v2/api/site/{site}/static-dns`). The earlier scripts (`list_dns_records`, `view_dns_record`, `create_dns_record`, etc.) targeted **local/client hostnames** (per-device, MAC-based; UniFi “user” API with `local_dns_record`). That was not the originally intended design. If you’re following this post and want to work with gateway-level static DNS (e.g. `myserver.example.com` → `192.168.1.100`), use the new scripts instead: `list_policy_dns_records.py`, `view_policy_dns_record.py`, `create_policy_dns_record.py`, `update_policy_dns_record.py`, `delete_policy_dns_record.py`. See the [repo README](https://github.com/SpaceTerran/udm-python-tools) for usage and JSON format.
 
 <br><br>
 
