@@ -46,7 +46,7 @@ By the end, you’ll be able to:
   - Firewall groups
   - Port forwards
   - Static routes
-  - Local DNS records
+  - DNS records (policy-based static DNS)
   - Zone-to-zone traffic analysis
 
 ## Prerequisites (macOS)
@@ -286,19 +286,22 @@ python list_static_routes.py
 python view_static_route.py <route_id>
 ```
 
-### Local DNS records
+### DNS records (policy-based static DNS)
 
-- **List DNS records** (optional hostname filter):
+The repo uses **policy-based static DNS** (UniFi Network → Settings → Policy Table → DNS Records). List and view by domain or record ID:
+
+- **List DNS records** (optional domain filter):
 
 ```bash
-python list_dns_records.py
-python list_dns_records.py server
+python list_policy_dns_records.py
+python list_policy_dns_records.py server
 ```
 
-- **View DNS record by MAC address**:
+- **View a DNS record** (by domain or record ID):
 
 ```bash
-python view_dns_record.py aa:bb:cc:dd:ee:ff
+python view_policy_dns_record.py myserver.example.com
+python view_policy_dns_record.py <record_id>
 ```
 
 ### Zone-to-zone traffic analysis (super handy for audits)
@@ -340,6 +343,12 @@ And even if you never automate a single change, these scripts are still great wh
 - Reference submodule (give it a star): [https://github.com/sirkirby/unifi-network-mcp](https://github.com/sirkirby/unifi-network-mcp)
 
 If you end up using this, I’d love to hear what you’re automating in your lab (and what UniFi task you *wish* was easier). Drop a comment and let’s compare notes.
+
+---
+
+### Update: DNS scripts (policy-based static DNS)
+
+The repo’s **DNS scripts were updated** after this post was published. The project now uses **policy-based static DNS** (UniFi Network → Settings → Policy Table → DNS Records; API `/proxy/network/v2/api/site/{site}/static-dns`). The earlier scripts (`list_dns_records`, `view_dns_record`, `create_dns_record`, etc.) targeted **local/client hostnames** (per-device, MAC-based; UniFi “user” API with `local_dns_record`). That was not the originally intended design. If you’re following this post and want to work with gateway-level static DNS (e.g. `myserver.example.com` → `192.168.1.100`), use the new scripts instead: `list_policy_dns_records.py`, `view_policy_dns_record.py`, `create_policy_dns_record.py`, `update_policy_dns_record.py`, `delete_policy_dns_record.py`. See the [repo README](https://github.com/SpaceTerran/udm-python-tools) for usage and JSON format.
 
 <br><br>
 
