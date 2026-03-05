@@ -29,6 +29,16 @@ assets/js/dist
 *.DS_Store
 assets/.DS_Store
 
+# AI/Editor tooling
+.claude/
+.cursor/
+.aider/
+
+# Build artifacts
+*.log
+.sass-cache/
+.ruby-lsp/
+
 # Local writing style prompt
 .writing-style-prompt.md
 
