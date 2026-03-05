@@ -31,3 +31,6 @@ assets/.DS_Store
 
 # Local writing style prompt
 .writing-style-prompt.md
+
+# Planning docs (contain private references)
+docs/plans/
