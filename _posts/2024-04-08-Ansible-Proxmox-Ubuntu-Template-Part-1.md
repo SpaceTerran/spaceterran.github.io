@@ -1,5 +1,8 @@
 ---
 title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansible Playbook - Part 1"
+description: >-
+  Create a reusable Ubuntu 22.04 cloud-init template on Proxmox using qm
+  commands — covering VM creation, disk import, and SSH setup.
 author: isaac
 date: 2024-04-08 07:00:00 -0700
 categories: [DevOps, Cloud Computing]
@@ -9,6 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/assembly-line.jpg
+  alt: Assembly line illustration representing automated Proxmox VM template creation
 ---
 
 I wanted to create this walkthrough because, while there are forums and documentation from sources like Proxmox and Ubuntu, I felt that many of the walkthroughs weren't overly comprehensive. Even though my experiences may not mirror yours, and it's quite possible that both cloud-init images and Proxmox will improve their usability over time, I wanted to ensure I had an automated way of deploying my servers. Thus, in part two of this post, I will present an Ansible playbook. But first, I will walk through some of the commands and explain how they work.

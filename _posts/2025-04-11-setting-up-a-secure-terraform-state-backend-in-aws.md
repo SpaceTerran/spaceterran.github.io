@@ -1,5 +1,8 @@
 ---
 title: Setting Up a Secure Terraform State Backend in AWS
+description: >-
+  Create a secure Terraform state backend in AWS with an S3 bucket, state
+  locking, IAM least-privilege permissions, and server-side encryption.
 author: isaac
 date: 2025-04-11 07:00:00 -0700
 categories: [DevOps, Terraform]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/tf-backend/tf-backend.png
-  alt: 
+  alt: "Terraform state backend architecture with AWS S3 bucket and IAM security"
 ---
 
 ## Introduction

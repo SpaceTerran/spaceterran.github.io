@@ -1,5 +1,8 @@
 ---
 title: "Ansible Playbook for Deploying ollama-webui & liteLLM-proxy to connect to Azure OpenAI"
+description: >-
+  Deploy ollama-webui and liteLLM-proxy with Ansible and Docker to connect a
+  self-hosted AI chat interface to Azure OpenAI Cognitive Services.
 author: isaac
 date: 2024-02-07 02:00:00 -0700
 categories: [DevOps, Ansible, Azure, Docker]

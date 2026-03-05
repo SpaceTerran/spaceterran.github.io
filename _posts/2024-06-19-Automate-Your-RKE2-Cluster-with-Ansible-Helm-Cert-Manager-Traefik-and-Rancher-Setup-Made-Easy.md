@@ -1,5 +1,8 @@
 ---
 title: "Automate Your RKE2 Cluster with Ansible: Helm, Cert-Manager, Traefik, and Rancher Setup Made Easy"
+description: >-
+  Ansible playbook to automate RKE2 cluster setup with Helm, Cert-Manager,
+  Traefik reverse proxy, and Rancher UI installation.
 author: isaac
 date: 2024-06-19 07:00:00 -0700
 categories: [DevOps, Kubernetes, Ansible, Automation, Home Lab]

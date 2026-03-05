@@ -1,5 +1,8 @@
 ---
 title: "Copilot for Microsoft 365, A Data Exfiltration Machine?"
+description: >-
+  How Microsoft 365 Copilot web content queries and third-party plugins can
+  expose company data, and why you should review these settings now.
 author: isaac
 date: 2024-02-24 07:00:00 -0700
 categories: [AI and Data Security, Microsoft, Business Strategy]

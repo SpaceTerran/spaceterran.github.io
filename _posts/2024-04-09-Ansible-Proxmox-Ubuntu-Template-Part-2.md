@@ -1,5 +1,8 @@
 ---
 title: "(How-To) Deploying Cloud-Init Template with Ubuntu on Proxmox with Ansible Playbook - Part 2"
+description: >-
+  Automate Proxmox Ubuntu cloud-init template creation with an Ansible playbook
+  using Ansible Vault, Jinja2 user-data, and UEFI support.
 author: isaac
 date: 2024-04-09 07:00:00 -0700
 categories: [DevOps, Cloud Computing]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/assembly-line-2.jpg
-
+  alt: Assembly line illustration representing automated Proxmox VM template deployment with Ansible
 ---
 
 #### Note... This is a Two Part Post

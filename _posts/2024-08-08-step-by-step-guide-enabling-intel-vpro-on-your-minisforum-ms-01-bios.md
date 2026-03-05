@@ -1,5 +1,8 @@
 ---
 title: "Step-by-Step Guide: Enabling Intel® vPro™ on Your Minisforum MS-01"
+description: >-
+  Complete BIOS configuration guide to enable Intel vPro and AMT on the
+  Minisforum MS-01 for remote KVM access using MeshCommander.
 author: isaac
 date: 2024-08-08 07:00:00 -0700
 categories: [Remote Access, IT Administration, Proxmox, Tutorials and Guides]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/vpro/ms-01.png
-  alt: 
+  alt: "Minisforum MS-01 mini workstation for Intel vPro and AMT remote management"
 ---
 
 # Configure Minisforum MS-01 BIOS to Enable Intel® AMT/Intel® vPro™

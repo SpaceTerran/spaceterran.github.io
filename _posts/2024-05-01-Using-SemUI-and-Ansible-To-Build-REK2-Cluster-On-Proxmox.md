@@ -1,5 +1,8 @@
 ---
 title: "Seamlessly Setting Up Server Infrastructure for RKE2 with Semaphore UI(SemUI) and Ansible on Proxmox -- QM Commands!"
+description: >-
+  Set up Semaphore UI in Docker, configure it for Ansible, and use QM commands
+  to deploy five RKE2-ready VMs across a Proxmox cluster.
 author: isaac
 date: 2024-05-01 07:00:00 -0700
 categories: [DevOps, Kubernetes, Proxmox, Ansible, Scripting, Automation]

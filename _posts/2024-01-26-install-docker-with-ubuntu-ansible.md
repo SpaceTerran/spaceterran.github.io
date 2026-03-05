@@ -1,5 +1,8 @@
 ---
-title: Error's Enccountered While Installing Docker on Ubuntu 22.04 using Ansaible + Portainer
+title: Errors Encountered While Installing Docker on Ubuntu 22.04 using Ansible + Portainer
+description: >-
+  Fix the Docker GPG key error on Ubuntu 22.04 with Ansible, learn Jinja2
+  templating for Docker Compose, and deploy Portainer using a playbook.
 author: isaac
 date: 2024-01-26 18:00:00 +0800
 categories: [DevOps, Ansible, Docker]

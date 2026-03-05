@@ -1,5 +1,8 @@
 ---
 title: "TrueNAS SCALE: Traefik - Working SSL Certificates - Applications - Support"
+description: >-
+  Connect TrueNAS SCALE GUI applications to your existing Traefik instance by
+  adding Docker networks and Traefik labels for SSL certificates.
 author: isaac
 date: 2025-02-18 07:00:00 -0700
 categories: [TrueNAS, Docker, Docker Compose, Networking, HomeLab, SSL Certificates, Tutorials and Guides]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/truenas-apps/eel.jpeg
-  alt: 
+  alt: "TrueNAS SCALE Electric Eel applications with Traefik integration for SSL"
 ---
 
 ## TrueNAS SCALE (Electric Eel) +

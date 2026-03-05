@@ -1,5 +1,8 @@
 ---
 title: "TerraScan: Self-Hosted AI Code Reviews for Gitea"
+description: >-
+  TerraScan is a self-hosted AI code reviewer for Gitea that posts inline PR
+  comments using OpenAI, Anthropic, or local Ollama models via Docker.
 author: isaac
 date: 2026-01-30 07:00:00 -0700
 categories: [DevOps, Automation, HomeLab, Tutorials and Guides]

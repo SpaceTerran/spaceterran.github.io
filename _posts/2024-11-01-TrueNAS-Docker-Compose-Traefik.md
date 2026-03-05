@@ -1,5 +1,8 @@
 ---
 title: "Hands-On with TrueNAS SCALE 24.10 Electric Eel: Configure Docker Compose and Traefik - Working SSL Certificates"
+description: >-
+  Set up Docker Compose and Traefik with working SSL certificates on TrueNAS
+  SCALE 24.10 Electric Eel, including Cloudflare DNS validation.
 author: isaac
 date: 2024-11-01 07:00:00 -0700
 categories: [TrueNAS, Docker, Docker Compose, Networking, HomeLab, SSL Certificates, Tutorials and Guides]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/truenas_docker_compose_traefik/TrueNAS_SCALE_24.10_Electric_Eel_Docker_Traefik_SSL.png
-  alt: 
+  alt: "TrueNAS SCALE 24.10 Electric Eel with Docker Compose and Traefik SSL configuration"
 ---
 
 ## TrueNAS SCALE 24.10 (Electric Eel)

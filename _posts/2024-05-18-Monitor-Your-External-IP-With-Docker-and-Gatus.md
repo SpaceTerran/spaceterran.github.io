@@ -1,5 +1,8 @@
 ---
 title: "Monitor your external IP with Docker and Gatus"
+description: >-
+  Build a lightweight Flask Docker container that monitors your public IP and
+  integrates with Gatus to alert you when your external IP changes.
 author: isaac
 date: 2024-05-18 07:00:00 -0700
 categories: [DevOps, Ansible, Scripting, Automation, Network Monitoring, Home Lab]

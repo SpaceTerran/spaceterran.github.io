@@ -1,5 +1,8 @@
 ---
 title: "Mastering Ansible on macOS A Step by Step Guide"
+description: >-
+  Install Ansible on macOS with Homebrew, set up SSH key authentication to an
+  Ubuntu server, and run your first Ansible playbook step by step.
 author: isaac
 date: 2024-12-30 07:00:00 -0700
 categories: [Automation, DevOps, System Administration, macOS, Ubuntu, HomeLab, Tutorials and Guides]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/Mastering-Ansible-on-macOS-A-Step-by-Step-Guide/Mastering-Ansible-on-macOS-A-Step-by-Step-Guide.png
-  alt: 
+  alt: "Step-by-step guide to installing and running Ansible on macOS"
 ---
 
 Today, I'm going to show you how to install Ansible on a Mac, and prepare a target Ubuntu server with SSH authentication, which will make using Ansible easier in the future. There are many ways to install Ansible. Here's the [official link to Ansible](https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html) for installing the software on various systems.

@@ -1,5 +1,8 @@
 ---
 title: "A Better Way to Run MeshCommander in Your Homelab (Intel vPro + Docker)"
+description: >-
+  Run MeshCommander in Docker with a persistent server-side computer list that
+  survives browser cache clears, for reliable Intel AMT management.
 author: isaac
 date: 2025-12-13 07:00:00 -0700
 categories: [Remote Access, Docker, HomeLab, Tutorials and Guides]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/meshcommander-vpro-docker/meshcommander-vpro-docker.png
-  alt: 
+  alt: "MeshCommander Docker container with persistent Intel AMT computer list"
 ---
 
 If you've been following along, you know I've been running Intel vPro/AMT on my Minisforum MS-01 devices. In a previous post, I covered [enabling Intel vPro on the MS-01](https://spaceterran.com/posts/step-by-step-guide-enabling-intel-vpro-on-your-minisforum-ms-01-bios/) and mentioned using MeshCommander via Docker to connect.

@@ -1,5 +1,8 @@
 ---
 title: "UniFi UDM Pro Python Tools: Modular CLI Scripts for Automation"
+description: >-
+  Modular Python CLI scripts for read-only UniFi UDM Pro automation — inspect
+  firewall policies, groups, port forwards, routes, and DNS records.
 author: isaac
 date: 2026-01-19 07:00:00 -0700
 categories: [HomeLab, Networking, Automation, Security, Tutorials and Guides]

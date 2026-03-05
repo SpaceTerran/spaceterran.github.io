@@ -1,5 +1,8 @@
 ---
 title: "Moved from PC to Mac? Microsoft Teams Sounds Not the Same? Feeling lost without your familiar notification sounds?"
+description: >-
+  Switched from PC to Mac and missing familiar Microsoft Teams sounds? Enable
+  the Teams notification sounds setting in macOS preferences.
 author: isaac
 date: 2024-09-30 07:00:00 -0700
 categories: [Microsoft, MS Teams, Tutorials and Guides, Short Posts]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/teams/7e70bb8a-cfdc-43a3-9855-4478a76bcd4e.png
-  alt: 
+  alt: "Microsoft Teams notification sound settings on macOS"
 ---
 
 Have you recently moved from a PC to a Mac and noticed that when using MS Teams, things are just a bit different? Well, some of this can be expected, of course. However, one thing that was driving me crazy was that the notification sounds, calling sounds, etc., were all completely different. Yes, this didn't impact anything functionally, but for some reason, the familiar sounds of Microsoft Teams being missing just — well, I couldn't live without them. Thanks, Microsoft brainwashing!

@@ -1,5 +1,8 @@
 ---
 title: The Beginning
+description: >-
+  Welcome to SpaceTerran — a blog about IT infrastructure, homelab builds,
+  networking, and server environments from a 20-year IT veteran.
 author: isaac
 date: 2024-01-21 19:00:00 +0800
 categories: [first post]

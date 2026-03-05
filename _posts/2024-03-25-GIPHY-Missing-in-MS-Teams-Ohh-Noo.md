@@ -1,5 +1,8 @@
 ---
 title: "GIPHY Missing In MS Teams(new), Oh nooo!"
+description: >-
+  GIPHY disappeared from Microsoft Teams? Enable Optional Connected Experiences
+  in privacy settings, sign out, and restart to bring it back.
 author: isaac
 date: 2024-03-25 07:00:00 -0700
 categories: [Microsoft, MS Teams]

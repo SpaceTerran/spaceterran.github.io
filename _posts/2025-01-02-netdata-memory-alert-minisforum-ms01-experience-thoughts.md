@@ -1,5 +1,8 @@
 ---
 title: "Netdata Memory Alert on Minisforum MS-01: My Experience and Thoughts"
+description: >-
+  Investigating a Netdata corrupted memory alert on a Minisforum MS-01 with
+  96GB Mushkin DDR5 RAM — MemTest86 passed, likely a false alarm.
 author: isaac
 date: 2025-01-02 07:00:00 -0700
 categories: [Troubleshooting, HomeLab]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/netdata-memory-alert-minisforum-ms01-experience-thoughts/RAM_ERROR.png
-  alt: 
+  alt: "Netdata memory corruption alert notification for Minisforum MS-01"
 ---
 
 

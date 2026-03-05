@@ -1,49 +1,46 @@
 ---
 layout: page
 title: Privacy Policy
-description: Privacy policy for users of this authentication service.
+description: Privacy policy for spaceterran.com
 permalink: /privacy-policy/
 ---
 
-_Updated: 2025-06-29_
+_Updated: 2026-03-05_
 
-Your privacy is important. This policy describes how we collect, use, and protect your information when you use this authentication service ("the Service").
+## Analytics
 
-## What Information We Collect
+This site uses Google Analytics to understand how visitors interact with content.
+Google Analytics collects anonymized data such as pages visited, time on site,
+and general geographic region. This data is used solely to improve site content.
 
-We may collect the following information when you use the Service:
+Google may set cookies in your browser to track sessions. You can opt out of
+Google Analytics by installing the
+[Google Analytics Opt-out Browser Add-on](https://tools.google.com/dlpage/gaoptout).
 
-- **Basic Profile Information**: Such as your email address and name, provided by your authentication provider.
-- **Login Data**: Timestamps of sign-ins, usage logs, and technical data (like IP address and browser) solely for security and troubleshooting.
-- **Cookies**: For maintaining login sessions.
+## Comments
 
-## How We Use Your Information
+Comments are powered by [Giscus](https://giscus.app), which uses GitHub
+Discussions. To leave a comment, you authenticate with your GitHub account.
+Comments are publicly visible in the
+[blog-comments](https://github.com/SpaceTerran/blog-comments) repository on
+GitHub. Your GitHub profile name and avatar are displayed alongside your comment.
 
-Your information is used to:
+No comment data is stored on this site's servers — it lives entirely on GitHub.
 
-- Facilitate secure sign-in and single sign-on (SSO) to connected applications.
-- Ensure the security and operation of the Service.
-- Communicate important information about the Service.
+## Cookies
 
-## Information Sharing
+This site may set cookies for:
 
-We do **not** share your personal information with third parties, except:
+- **Google Analytics** — session and user tracking (see above)
+- **PWA (Progressive Web App)** — offline caching of site content for faster loading
 
-- As required by law or to comply with legal obligations.
-- With services you explicitly choose to sign in to via SSO.
+No advertising or third-party tracking cookies are used.
 
-## Data Storage and Security
+## External Links
 
-Your data is stored securely and access is restricted to authorized individuals maintaining the Service. Reasonable steps are taken to protect your information from unauthorized access or loss.
-
-## Your Choices
-
-You may request information about your data or request deletion by contacting the Service administrator.
-
-## Changes
-
-We may update this policy from time to time. Changes will be posted on this page.
+Blog posts may link to external sites. This site is not responsible for the
+privacy practices of those sites.
 
 ## Contact
 
-If you have questions or concerns about your privacy, please contact the administrator using the [contact me](https://spaceterran.com/contact-me/) page.
+Questions about this policy? Use the [contact page](/contact-me/).

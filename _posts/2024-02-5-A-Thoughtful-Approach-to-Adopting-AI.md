@@ -1,5 +1,8 @@
 ---
 title: "Slow Your Roll: A Thoughtful Approach to Adopting AI"
+description: >-
+  A strategic guide to adopting AI in your organization — focusing on data
+  privacy, building vs buying, and creating an MVP before scaling up.
 author: isaac
 date: 2024-02-5 18:00:00 +0800
 categories: [AI and Data Security, Business Strategy, Microsoft]

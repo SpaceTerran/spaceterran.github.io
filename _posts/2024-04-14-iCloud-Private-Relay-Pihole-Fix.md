@@ -1,5 +1,8 @@
 ---
 title: "Safari can’t connect to iCloud Private Relay"
+description: >-
+  Fix Safari iCloud Private Relay errors caused by Pi-hole by configuring
+  dnsmasq to send NXDOMAIN responses for Apple mask domains.
 author: isaac
 date: 2024-04-14 07:00:00 -0700
 categories: [DNS, Docker, Apple]

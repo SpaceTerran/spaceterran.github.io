@@ -1,5 +1,8 @@
 ---
 title: "Efficient Email Management with Python and Ollama: A Gmail Summarization Script"
+description: >-
+  A Python script that reads Gmail via OAuth2, summarizes emails using a
+  self-hosted Ollama AI model, and sends a consolidated digest via email.
 author: isaac
 date: 2024-07-14 07:00:00 -0700
 categories: [AI and Machine Learning, Automation, Ollama]
@@ -9,7 +12,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/Gmail-with-Ollama/Gmail-Summarization-Script-with-Ollama.png
-  alt: 
+  alt: "Gmail summarization workflow with Python and Ollama AI model"
 ---
 
 

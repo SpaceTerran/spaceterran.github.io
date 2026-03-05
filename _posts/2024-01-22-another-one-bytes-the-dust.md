@@ -1,5 +1,8 @@
 ---
-title: Another One Bytes🙃 the Dust - Google Podcasts to Say its Final Goodbye 
+title: Another One Bytes🙃 the Dust - Google Podcasts to Say its Final Goodbye
+description: >-
+  Google Podcasts is shutting down in 2024. Here is what you need to know about
+  migrating your subscriptions to YouTube Music or other platforms.
 author: isaac
 date: 2024-01-22 18:00:00 +0800
 categories: [Google, YouTube Music, Podcasts]

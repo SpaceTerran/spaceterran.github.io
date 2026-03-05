@@ -1,5 +1,8 @@
 ---
 title: "Ansible Playbook for Deploying Docker Swarm and GlusterFS"
+description: >-
+  Step-by-step Ansible playbook to deploy Docker Swarm with GlusterFS
+  distributed storage across multiple Proxmox hosts for high availability.
 author: isaac
 date: 2024-02-17 02:00:00 -0700
 categories: [DevOps, Ansible, Docker]

@@ -1,5 +1,8 @@
 ---
 title: "Cloudflare DNS Updater Bash Script"
+description: >-
+  A Bash script that automatically updates Cloudflare DNS A records when your
+  public IP changes, using the Cloudflare API with error handling.
 author: isaac
 date: 2024-02-06 02:00:00 -0700
 categories: [Scripting, Cloudflare, Automation]
