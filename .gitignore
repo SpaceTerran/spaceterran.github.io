@@ -44,3 +44,4 @@ assets/.DS_Store
 
 # Planning docs (contain private references)
 docs/plans/
+assets/lib/
