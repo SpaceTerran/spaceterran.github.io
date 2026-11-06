@@ -3,21 +3,22 @@ name: Dependabot Auto-Merge
 on:
   pull_request:
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # GitHub Actions bumps only. The required `build` check runs every bumped
+    # action except deploy-pages before the merge happens. Gem (bundler) PRs are
+    # theme or tool major versions and wait for a human look at the site.
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.repository == 'SpaceTerran/spaceterran.github.io' &&
+      startsWith(github.head_ref, 'dependabot/github_actions/')
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Approve PR
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Enable auto-merge
         run: gh pr merge --auto --merge "$PR_URL"
         env:
