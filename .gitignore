@@ -25,9 +25,11 @@ package-lock.json
 # Misc
 _sass/vendors
 assets/js/dist
-**/.DS_Store
-*.DS_Store
-assets/.DS_Store
+
+# Hidden system files
+*~
+.DS_Store
+Thumbs.db
 
 # AI/Editor tooling
 .claude/
