@@ -299,13 +299,20 @@ Read ~/loops/<program>/MANAGER-PROMPT.md and follow it. You were started by hl-w
 ![Three lanes over an hour: a killed manager replaced at the next five-minute tick, a stuck one replaced 45 minutes after its last heartbeat, and a planned hand-over where the next tick starts a fresh manager](/assets/img/myphotos/herdr-loop/liveness.png){: w="840" h="706" }
 _The three ways a manager stops, and what the watchdog does about each._
 
-In the canary, a killed manager was replaced in **64 seconds** and a stuck one in **46 minutes**. That's the trade-off: a dead manager costs one tick, but a manager that's alive and stuck costs the full 45 minutes, because from outside, a stuck manager looks just like one in the middle of a long step until enough time has passed.
+In the canary, a killed manager was replaced in **64 seconds** and a stuck one in **46 minutes**. The difference is in what each one looks like from outside. A killed manager's process is gone, so the next five-minute tick sees it and starts a new one. A stuck manager is still running, and it looks exactly like a manager that's busy with a long step. Only time tells them apart, so the watchdog waits the full 45 minutes without a save before it gives up on one.
 
-The watchdog has brakes, too. Three starts in an hour that weren't planned hand-overs: stop and page me. Three hand-overs in a row with no progress, judged by a digest of every item's status and attempt counts: stop. A merge still running: leave it alone. A manager stopped on a usage limit that hasn't reset: don't replace it, because the new one would stop on the same limit.
+The watchdog also knows when *not* to start a new manager, because sometimes a fresh one would just fail the same way:
+
+- **Managers keep dying.** Three starts in an hour that weren't planned hand-overs means something is killing every manager the same way, and a fourth won't do any better. The watchdog stops and pages me.
+- **Managers hand over without getting anywhere.** If three hand-overs in a row leave every item where it was (no status change, no new attempt, no worker finishing), the watchdog stops.
+- **A merge is still running.** A manager that looks stuck while `hl-merge` runs is left alone until the merge finishes.
+- **The manager hit a usage limit.** A new one would stop on the same limit, so the watchdog waits for the reset.
 
 ### Handing Over When the Context Fills
 
-The manager's own context is the thing that runs out most often. Every `hl-flow save` reads the size of the manager's last request from its transcript and answers with it:
+The manager's own context is the thing that runs out most often, and this is where the stateless prompt pays off. A manager keeps nothing that isn't written down: the prompt is the same file for every manager, and where things stand is in the ledger's "Now" section. So a hand-over isn't a transfer of memory. The old manager writes down where things stand and stops, and a fresh one reads it and carries on.
+
+Every `hl-flow save` reads the size of the manager's last request from its transcript and answers with it:
 
 ```text
 { "pushed": true, "context_tokens": 151204, "hand_over": true,
@@ -319,7 +326,7 @@ In my programs the hand-over point is **150,000 tokens**, lower than the kit's d
 When the save says `hand_over: true`, and only between steps of an item (a worker can be mid-build, but a merge can't be mid-flight), the manager:
 
 1. stops every background command it started, by PID,
-2. rewrites "Now",
+2. rewrites "Now" for the next manager,
 3. saves (which commits, pushes and stamps the heartbeat),
 4. releases the claim with a note like `hand-over at 146k tokens`,
 5. says so in one line, and stops.
@@ -328,14 +335,14 @@ In practice, most managers go a little before the line. Every save tells the man
 
 On the catalog program, 225 of 260 hand-overs came before 150k, with a median of 143k. The script reports the number, and the manager decides when to go. That's why the note above says 146k.
 
+Stopping its own background commands comes first because of an incident. A manager once left an `until herdr agent read <manager> …; do sleep 15; done` running in the background, and it kept polling for **two days** after that manager had gone.
+
+**"Now" is rewritten, never added to.** It's the whole hand-over: a short section of the ledger with each stream and what it's doing, what's in flight, the next steps in order, anything waiting on me, and what to clean up. Every new manager starts by reading all of it. Before this rule, managers added to it instead, and on one program it grew to 14 KB. One line in it was no longer true, but it got carried from manager to manager and kept a step waiting for more than three hours. So every line in it has to be something the manager checked in its own session, against the run directories, GitHub or Herdr. A line it can't vouch for gets checked or deleted, never copied forward.
+
 Within five minutes the watchdog sees a released claim and starts a fresh manager with the same prompt. Here's one just after it started:
 
 ![A fresh manager session reading MANAGER-PROMPT.md after the previous manager handed over at 146k tokens, claiming the program and pulling the ledger, with the status line showing the seat's five-hour and weekly usage](/assets/img/myphotos/herdr-loop/manager-handover.png){: w="1045" h="529" }
 _A new manager, a minute old. The status line shows the seat's usage: 30% of the five-hour window, 81% of the week._
-
-Stopping its own background commands comes first because of an incident. A manager once left an `until herdr agent read <manager> …; do sleep 15; done` running in the background, and it kept polling for **two days** after that manager had gone.
-
-**"Now" is rewritten, never added to.** On one program it grew to 14 KB, and a line in it that was no longer true held a step back for more than three hours. Now the rule is: a line you didn't check against the run directories, GitHub or Herdr in this session gets deleted or checked, never carried over.
 
 The catalog program has been through 282 manager sessions so far. Most of them were hand-overs, and I don't notice them: when I timed them early on, the gap between one manager leaving and the next one starting was 0 to 2 minutes, with a hand-over about every half hour.
 
