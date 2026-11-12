@@ -38,11 +38,13 @@ But it had a problem I couldn't engineer around. **Nothing can talk to a headles
 
 So I flipped it around. Instead of a service driving headless processes, a **model** drives **interactive sessions** that anyone can look at. The manager types a one-line prompt into a pane, reads the file the worker writes back, and if something's off it can just ask the worker a follow-up question. The protocol stayed (briefs, verdicts, a gated merge, a deploy check). The wrapper, the container and LoopRunner's GUI went.
 
+Needing interactive sessions at all is a limit of today's tools rather than a goal of the design. As the tools get better ways to steer an agent that's already running, a lot of the pane machinery below should go away.
+
 I built the first version on October 11. It ran a canary that night (10 items on a scratch repo, plus 9 deliberate fault exercises like killing the manager mid-item), and started its first real program the next morning. LoopRunner was shut down four days later.
 
 ## The Whole Thing in One Picture
 
-![The laptop stages programs over SSH to the Mac mini, which runs Herdr, the loop root, launchd, two Claude seats and a secrets keeper; GitHub holds pull requests and the ledger; my phone gets notices](/assets/img/myphotos/herdr-loop/topology.png){: w="840" h="1080" }
+![The laptop stages programs over SSH to the Mac mini, which runs Herdr, the loop root, launchd, the loop's own Claude sign-in and a secrets keeper; GitHub holds pull requests and the ledger; my phone gets notices](/assets/img/myphotos/herdr-loop/topology.png){: w="840" h="1080" }
 _Amber means a model decides, blue means a script holds it, grey is something outside._
 
 Three places matter:
@@ -51,7 +53,7 @@ Three places matter:
 - **The Mac mini** runs everything. Herdr's server, a watchdog per program, Docker for the tests, the manager, and every worker. For sizing: a Claude worker is about 270 MB at start, a Cursor worker 570 MB, and a reviewer's browser 630 MB across nine processes.
 - **GitHub** holds the facts: pull requests, required checks, deploy runs, a merge lock, and the program's ledger on its own branch.
 
-Why a Mac mini and not a Linux server? I work on a Mac and like it, so the loop grew up on one. Linux would very likely work fine, with a systemd timer in place of launchd. The one Mac quirk that matters: Claude Code and Cursor keep their sign-ins in the macOS Keychain, and the Keychain is locked over SSH. Neither tool can sign in from an SSH shell, but both work fine inside a Herdr pane on the machine itself. The mini also holds the loop's own Claude seats. My laptop's sign-in is mine, and no program ever runs on it.
+Why a Mac mini and not a Linux server? I work on a Mac and like it, so the loop grew up on one. Linux would very likely work fine, with a systemd timer in place of launchd. The one Mac quirk that matters: Claude Code and Cursor keep their sign-ins in the macOS Keychain, and the Keychain is locked over SSH. Neither tool can sign in from an SSH shell, but both work fine inside a Herdr pane on the machine itself. The mini also holds the loop's own Claude sign-in. Mine stays on my laptop, and no program ever runs on it.
 
 ## A Few Words First
 
@@ -177,7 +179,7 @@ A big chunk of the code has nothing to do with judgment. It's the plumbing that 
 - **The prompt is one line.** `hl-spawn` renders the brief to a file and types `Read <brief> and do exactly what it says.`, capped at 500 characters. Herdr delivers anything longer than roughly 600 characters as pasted content, and Claude is told that pasted content may hold instructions its user didn't write. That's exactly right for a paste, and exactly wrong for a brief.
 - **The folder-trust race.** Claude asks whether you trust a new folder, and the default answer is "No, exit". Herdr reports the agent as ready the moment the dialog is answered, while Claude is still starting, and text typed then gets lost. Sending right away lost 4 of 6 first prompts. Now `hl-spawn` answers only that dialog, waits until the screen shows the real input box, sends with `--wait --until working`, checks the transcript to see that the prompt arrived, and retries up to three times. That got 6 of 6.
 - **Secrets never touch a command line.** A worker pane sources a small env script that asks the secrets keeper for its tokens inside the pane. `hl-spawn` then checks that the agent process actually has them.
-- **Which seat.** Each Claude seat is its own config directory, and a session lands on a seat by having `CLAUDE_CONFIG_DIR` set before it starts. Only the watchdog decides which seat a program is on.
+- **Which sign-in.** Claude Code uses the sign-in in whatever config directory `CLAUDE_CONFIG_DIR` names, so `hl-spawn` sets it for every Claude worker and refuses to start one without it. No session lands on my own sign-in by accident.
 - **Leftover processes.** Closing a pane kills the agent, but not a job it backgrounded. On macOS that job gets adopted by launchd and hides from the usual ways of finding it. A builder once left four CPU loops running for nine and a half hours. Now `hl-spawn` points each pane's `ZDOTDIR` at a tiny `.zshenv` that records every shell's pid and start time, and closing the attempt kills exactly those shells' sessions.
 - **A sub-agent guard.** A `PreToolUse` hook rewrites every sub-agent call a worker makes so it runs in the foreground, on the worker's own model, in the worker's own checkout. It isn't proven: on the mini a sub-agent once ran in the background anyway, so worker sub-agents stay off unless a program turns them on.
 
@@ -199,7 +201,7 @@ The rest is in sections, roughly in the order a manager needs them:
 
 - **The mandate.** Build, review, merge on a pass, confirm the deploy. "You route, arbitrate and record. You do not build, you do not review, and you never write or edit a criterion. Builders build, reviewers judge, one script merges."
 - **Where the truth is.** Run directories first, then GitHub, then Herdr, then the ledger. "A status written anywhere is a claim; the pull request and the run are the fact." And about Herdr: "Its `idle` and `done` prove nothing; a done file does."
-- **Start of every session.** Eight steps: check it's inside Herdr, claim the program, read "Now", release any merge lock a dead session left, reconcile the runs against Herdr and GitHub, check capacity and seats, check the secrets budget, then save, arm its waits, and report.
+- **Start of every session.** Eight steps: check it's inside Herdr, claim the program, read "Now", release any merge lock a dead session left, reconcile the runs against Herdr and GitHub, check capacity and usage, check the secrets budget, then save, arm its waits, and report.
 - **One item**, step by step, including how to read every answer each script gives.
 - **The working sections**: routing, workers and waiting, CI time, trains, pull requests from outside the program, what to do when a stream has nothing to run, and keeping the ledger short.
 - **Rules that are not negotiable.** Only `hl-merge` merges. Never edit a criterion or a verdict. Kill one PID at a time, never by name. Record a defect you notice; don't fix it in passing. "Never say verified unless a script or you ran the check."
@@ -357,7 +359,7 @@ The manager never polls. For each run it starts one background `hl-wait`, which 
 | `blocked` | a dialog is up |
 | `limit` | the worker's transcript ends in a usage-limit refusal |
 | `stopped` / `quiet` | no progress for 3 minutes (not working) or 10 (looks busy) |
-| `seat` | the watchdog changed the program's seat, or paused it |
+| `seat` | the watchdog paused the program at a usage limit, or changed its sign-in |
 | `time` | 20 minutes passed: save, and wait again |
 
 Progress is judged from the transcript files, not from Herdr's status. A worker with a sub-agent at work looks frozen if you only watch its own transcript, so the wait checks the sub-agents' transcripts too. Each problem wakes the manager **once**: a manager that looked at a `quiet` worker and decided to keep waiting gets woken next by something new, or by the clock.
@@ -375,15 +377,11 @@ The prompt doubling in size is the honest counterweight here. Every section that
 
 The same idea applies to workers. A builder runs the tests related to what it touched, not the full suites. The reviewer doesn't reinstall, re-run the suite, or rebuild, because CI does all three. In the first program, one builder's session was open for 115 minutes and only 26 of them were its own work; the rest was waiting on long test runs that CI was about to run again anyway.
 
-### Seats, and Programs Side by Side
+### Usage Limits
 
-The loop has two Claude seats of its own, separate from mine, so more than one program can run at a time, each with its own manager. Claude Code passes the status line script each session's usage (`rate_limits.five_hour` and `rate_limits.seven_day`, each with `used_percentage` and `resets_at`), and a shared script writes each reading to a file. Within one window usage only rises, so the highest reading for the latest reset time is the current one. Once per tick, the watchdog merges those readings and decides where each program runs:
+Claude Code passes the status line script each session's usage (`rate_limits.five_hour` and `rate_limits.seven_day`, each with `used_percentage` and `resets_at`), and a shared script writes each reading to a file. Within one window usage only rises, so the highest reading for the latest reset time is the current one. Once per tick, the watchdog merges those readings. When the program's sign-in is full, it pauses the program: the manager closes its Claude workers, saves and stops. Cursor workers keep going, because they don't count against Claude's windows. Once the window resets, the watchdog starts a fresh manager and the program carries on.
 
-- **Placement.** Each program runs on a seat with room, and only the watchdog picks it. When the watchdog changes a program's seat, the manager hands over and its successor starts on the new one.
-- **Pause.** When no seat has room, the program pauses: its manager closes its Claude workers, saves and stops. Cursor workers keep going, because they don't use a Claude seat.
-- **Resume.** Once a window resets, the program starts again on the seat with the most room left in its week.
-
-Two lessons shaped this. First, **a usage limit is never read from the screen.** A warning at 75% of a window isn't a block, and treating one as a block once parked a loop for 58 hours. The real signal is the refusal record in the transcript. Second, old readings were pruned too eagerly at first. With no reading left, a seat counted as unknown, and one pause ran **17 hours past its reset**. You can see that gap in the catalog chart further down.
+Two lessons shaped this. First, **a usage limit is never read from the screen.** A warning at 75% of a window isn't a block, and treating one as a block once parked a loop for 58 hours. The real signal is the refusal record in the transcript. Second, old readings were pruned too eagerly at first. With no reading left, the sign-in counted as unknown, and one pause ran **17 hours past its reset**. You can see that gap in the catalog chart further down.
 
 ### The Other Quota: 1Password
 
@@ -393,7 +391,7 @@ Now there's a **secrets keeper**: one small process per program that reads each 
 
 ## Where Things Live, and Why
 
-Most of the placements have come up already: the heartbeat in the manager's own save, liveness as a pid plus its start time, the watchdog in launchd with no model, seat decisions by the watchdog alone, secrets in one process's memory, briefs as files, a done file as the only "finished", and the merge lock as a git ref. Four haven't:
+Most of the placements have come up already: the heartbeat in the manager's own save, liveness as a pid plus its start time, the watchdog in launchd with no model, usage pauses by the watchdog alone, secrets in one process's memory, briefs as files, a done file as the only "finished", and the merge lock as a git ref. Four haven't:
 
 - **Loop roots** live in `~/loops/<program>/`, outside my synced git workspace. The sync once reverted a ledger.
 - **The kit** is copied into each root at a pinned commit, so a kit change can't alter a live program mid-item. Restaging installs a new kit between items.
@@ -414,7 +412,7 @@ The most useful measurement I have came early, almost by accident. The first rea
 ![Three kit versions compared: median minutes from start to merged 24.7, 22.3 and 9.4; builds per merged item 1.2, 1.8 and 1.0; first review passed 82, 46 and 90 percent; Claude tokens per item 2.09, 1.39 and 0.98 million](/assets/img/myphotos/herdr-loop/kit-rounds.png){: w="840" h="880" }
 _Small samples, measured in production. Round 3 changed several things at once._
 
-**Round 2** tried the obvious cost saving: build on Composer first, since Cursor's tokens don't come out of a Claude seat. The first review passed only 6 of 13 times, and items needed 1.8 builds. Of the 12 reviews that failed, were voided or didn't count, 8 came down to one exact value in the criteria that the builder never checked. The Claude token count looks lower, but that's because Composer's tokens aren't counted there at all.
+**Round 2** tried the obvious cost saving: build on Composer first, since Cursor's tokens don't count against Claude's usage windows. The first review passed only 6 of 13 times, and items needed 1.8 builds. Of the 12 reviews that failed, were voided or didn't count, 8 came down to one exact value in the criteria that the builder never checked. The Claude token count looks lower, but that's because Composer's tokens aren't counted there at all.
 
 **Round 3** went back to Sonnet for anything with behavior in it, tightened the briefs, and gave the manager its current mandate. The first review passed 9 of 10 times, items took one build each, and the median went from 22 minutes to 9. Weighted Claude tokens per item fell about 30% from round 2, *with every build now on Claude*.
 
@@ -436,7 +434,7 @@ Almost every rule in this post exists because of a failure. Here they are in one
 - **First prompts got lost** in the folder-trust race. *Wait for the real input box, then check the transcript to see that the prompt arrived.*
 - **Four CPU loops ran for nine and a half hours** after their builder was closed. *Record every shell a worker starts, and kill exactly those.*
 - **A 75% usage warning was read as a block**, and a loop sat for 58 hours. *Read limits from the refusal record, never from the screen.*
-- **A seat pause ran 17 hours past its reset.** *Keep the newest reading as proof a seat is open.*
+- **A usage pause ran 17 hours past its reset.** *Keep the newest reading as proof the window reopened.*
 - **A program idled for ten hours** on a gate that named me. *Every gate is the manager's.*
 - **Every stream idled for four hours** behind "if the queue does not drain in a day". *Nothing waits to see whether it fixes itself.*
 - **CI grew from 9 to 64 minutes** over ten days, and no manager noticed. *Every save now reports CI time, and a repo over budget gets repair items.*
@@ -452,7 +450,7 @@ The pattern I keep seeing: the model is rarely the problem. It does what it's to
 The kit is on GitHub: **[SpaceTerran/herdr-loop](https://github.com/SpaceTerran/herdr-loop)**. It's the same kit my programs run, with my hosts, accounts and project names taken out and the secrets reader made pluggable. The judgment lives in about 2,700 lines of markdown (the manager prompt, the briefs and the references). The rest is plumbing and its tests. The README walks through the setup in full. In short:
 
 1. **Make a private control repository** from the template. Your specs, backlogs and ledgers live there, and they say a lot about your work.
-2. **Prepare an always-on Mac**: [Herdr](https://herdr.dev/), Claude Code signed in on one or two seats that aren't your own sign-in, the Cursor CLI if you want a cheap builder for mechanical work, plus `gh`, Python and Node for the reviewer's browser. Do the sign-ins on the Mac itself, not over SSH.
+2. **Prepare an always-on Mac**: [Herdr](https://herdr.dev/), Claude Code signed in on a seat that isn't your own sign-in, the Cursor CLI if you want a cheap builder for mechanical work, plus `gh`, Python and Node for the reviewer's browser. Do the sign-ins on the Mac itself, not over SSH.
 3. **Give the loop its own GitHub token**, a fine-grained one that isn't an admin's, and turn on branch protection with required checks on every repo it touches. The merge gate leans on GitHub saying no.
 4. **Put the secrets where the kit can read them** (a file only you can read, 1Password, or the Keychain), and set up an [ntfy](https://ntfy.sh/) topic so the manager can reach you.
 5. **Write the program**: a spec, and backlog files of items written as behavior, each with a value from before the change and a Verify line. Honestly, this is most of the work.
