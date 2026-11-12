@@ -13,7 +13,7 @@ toc: true
 comments: true
 image:
   path: /assets/img/myphotos/herdr-loop/hero.png
-  alt: "A manager session sending briefs to builder and reviewer sessions, hl-merge as the only way to merge, then GitHub, under the line: a script may refuse; it may not decide. Below: 1,351 items merged in 31 days, 9 programs often two at once, 50k to 9k tokens a manager starts with, and 64 seconds to replace a killed manager"
+  alt: "A manager session sending briefs to builder and reviewer sessions, hl-merge as the only way to merge, then GitHub, under the line: a script may refuse; it may not decide. Below: 1,351 items merged in 31 days, 9 programs, often two at once, 50k to 9k tokens a manager starts with, and 64 seconds to replace a killed manager"
 ---
 
 For the last month, most of the code in my repos has been written by sessions I never typed into. One Claude Opus session, the manager, sits in a terminal tab on a Mac that's always on. It works through a backlog by starting ordinary Claude Code and Cursor sessions in other tabs, handing each one a written brief, and acting on the file it writes back. Builders build, a fresh session reviews, and a script merges.
@@ -25,7 +25,7 @@ This post is the long version: what runs where, what each piece is for, why some
 > **Note:** This is about a system I built for my own repos, on my own hardware. I've renamed my projects and left out accounts and addresses. Everything else is as it ran.
 {: .prompt-info }
 
-> **Version 5:** This is the fifth version of my loop system, and only the latest one. The shell loops and LoopRunner below were two of the earlier ones. Models and tools keep getting better, and as soon as a version is stable I push the envelope again, so expect parts of this post to be out of date by the time you read it. Read it as a snapshot, not a finished design.
+> **Tip:** This is the latest of several loop systems I've built. The shell loops and LoopRunner below were earlier ones. Models and tools keep getting better, and as soon as a version is stable I push the envelope again, so expect parts of this post to be out of date by the time you read it. Read it as a snapshot, not a finished design. And don't let that stop you: start with what works today, and iterate. More on that at the end.
 {: .prompt-tip }
 
 ## Why I Stopped Babysitting Sessions
@@ -38,14 +38,14 @@ But it had a problem I couldn't engineer around. **Nothing can talk to a headles
 
 So I flipped it around. Instead of a service driving headless processes, a **model** drives **interactive sessions** that anyone can look at. The manager types a one-line prompt into a pane, reads the file the worker writes back, and if something's off it can just ask the worker a follow-up question. The protocol stayed (briefs, verdicts, a gated merge, a deploy check). The wrapper, the container and LoopRunner's GUI went.
 
-Needing interactive sessions at all is a limit of today's tools rather than a goal of the design. As the tools get better ways to steer an agent that's already running, a lot of the pane machinery below should go away.
+To be clear, I don't want interactive sessions for their own sake. What I needed was a way to talk to an agent that's already running, and today an interactive session is the most practical way I've found to do that. As the tools get better at steering a running agent, I expect a lot of the pane machinery below to go away.
 
 I built the first version on October 11. It ran a canary that night (10 items on a scratch repo, plus 9 deliberate fault exercises like killing the manager mid-item), and started its first real program the next morning. LoopRunner was shut down four days later.
 
 ## The Whole Thing in One Picture
 
 ![The laptop stages programs over SSH to the Mac mini, which runs Herdr, the loop root, launchd, the loop's own Claude sign-in and a secrets keeper; GitHub holds pull requests and the ledger; my phone gets notices](/assets/img/myphotos/herdr-loop/topology.png){: w="840" h="1080" }
-_Amber means a model decides, blue means a script holds it, grey is something outside._
+_Amber means a model decides, blue means a script runs it, grey is something outside._
 
 Three places matter:
 
@@ -53,7 +53,9 @@ Three places matter:
 - **The Mac mini** runs everything. Herdr's server, a watchdog per program, Docker for the tests, the manager, and every worker: Claude Code sessions, plus Cursor's command-line agent for some builds. For sizing: a Claude worker is about 270 MB at start, a Cursor worker 570 MB, and a reviewer's browser 630 MB across nine processes.
 - **GitHub** holds the facts: pull requests, required checks, deploy runs, a merge lock, and the program's ledger on its own branch.
 
-Why a Mac mini and not a Linux server? I work on a Mac and like it, so the loop grew up on one. Linux would very likely work fine, with a systemd timer in place of launchd. The one Mac quirk that matters: Claude Code and Cursor keep their sign-ins in the macOS Keychain, and the Keychain is locked over SSH. Neither tool can sign in from an SSH shell, but both work fine inside a Herdr pane on the machine itself. The mini also holds the loop's own Claude sign-in. Mine stays on my laptop, and no program ever runs on it.
+Why a Mac mini and not a Linux server? I work on a Mac and like it, so the loop grew up on one. Linux would very likely work fine, with a systemd timer in place of launchd.
+
+The one Mac quirk that matters: Claude Code and Cursor keep their sign-ins in the macOS Keychain, and the Keychain is locked over SSH. Neither tool can sign in from an SSH shell, but both work fine inside a Herdr pane on the machine itself. The mini also holds the loop's own Claude sign-in. Mine stays on my laptop, and no program ever runs on it.
 
 ## A Few Words First
 
@@ -61,7 +63,7 @@ The rest of the post uses these words:
 
 - **Herdr**: a terminal multiplexer for coding agents. Like tmux, it has workspaces, tabs and panes, and its command line can start an agent in a pane, type a prompt into it, read its screen, and say whether it looks idle, working, blocked or done. Those readings are hints, as you'll see.
 - **Kit**: the scripts (all named `hl-…`), the manager prompt and the brief templates. Each program gets its own copy.
-- **Worker**: any session the manager starts: a builder, a reviewer, a premise check or a correction. Most are Claude Code sessions. Some builds go to Cursor's command-line agent instead, which runs Cursor's own model, Composer.
+- **Worker**: any session the manager starts, such as a builder, a reviewer, a premise check or a correction. Most are Claude Code sessions. Some builds go to Cursor's command-line agent instead, which runs Cursor's own model, Composer.
 - **Program**: one body of work, with a spec, some backlog files, one manager and one ledger.
 - **Backlog file**: a markdown file of items (`*-ITEMS.md`), each with a scope, an Accept list and a Verify line.
 - **Item**: one change, which becomes one pull request.
@@ -78,14 +80,14 @@ The rest of the post uses these words:
 ## One Item's Life
 
 ![An item's steps in four lanes: the manager routes, a script prepares, a worker builds, a script checks the PR, a fresh worker reviews, a script reads the verdict, the manager decides, hl-merge merges, GitHub runs checks and deploys, hl-verify runs the item's Verify line, and the manager closes and saves](/assets/img/myphotos/herdr-loop/item-lifecycle.png){: w="840" h="1720" }
-_Every step sits in the lane of whoever holds it. Between any two model steps, a script checks the hand-off._
+_Every step sits in the lane of whoever does it. Between any two model steps, a script checks the hand-off._
 
 Here's one item, start to finish:
 
 1. **Route.** The manager reads the item and picks the builder, the effort, whether it needs an independent premise check first, and whether the reviewer must look at it in a browser.
 2. **Prepare** (`hl-flow prepare`). A script makes the worktree and branch from fresh `main`, installs the item's Accept list as the contract, works out a port, and runs the repo's setup.
 3. **Build.** A builder session gets its brief, plans, writes the code and tests, opens the PR with the contract in the body, writes a short report, and touches its done file.
-4. **Built** (`hl-flow built`). A script checks the PR: it exists, isn't a draft, isn't set to merge itself, carries the contract, and the worktree is clean at the PR's head. A fault goes straight back to the still-open builder, which costs one message instead of a whole review.
+4. **Built** (`hl-flow built`). A script checks the PR: it exists, isn't a draft, isn't set to merge itself, has the contract in its body, and the worktree is clean at the PR's head. A fault goes straight back to the still-open builder, which costs one message instead of a whole review.
 5. **Review.** A script serves the build on its port, and a *fresh* Claude session reviews it. It never reuses the builder's session, and a script refuses if you try. The reviewer runs things, opens pages, takes screenshots, and writes a verdict.
 6. **Reviewed** (`hl-flow reviewed`). A script validates the verdict, reads the reviewer's transcript for proof it actually exercised the change, posts the verdict on the PR, and stops the served build.
 7. **Decide.** PASS goes to merge. FAIL goes back to a builder with the fix list. If the builder thinks a criterion is wrong, a separate correction session rules on it; the manager never edits a criterion itself.
@@ -117,7 +119,12 @@ Paths: `infra/dynamodb.tf` only.
 Wait. 30
 ```
 
-A few rules make that format work. Accept lines describe behavior, each with a value and what it was before the change, so a reviewer can tell a real fix from a coincidence. There's never a "the test suite passes" line: CI runs the suites once, and a suite written into a criterion gets run again by the builder and again by the reviewer. In the first program that was 4 to 12 long test runs for one item. `Floor.` is the least an item may be routed with: `sonnet` rules out a Composer build, `premise` requires a premise check, and `look` requires a review in a browser. A script refuses any route below it. And `Wait.` is a deadline, not a soak: the Verify runs right away, then every minute until the deadline.
+A few rules make that format work:
+
+- **Accept lines describe behavior**, each with a value and what it was before the change, so a reviewer can tell a real fix from a coincidence.
+- **There's never a "the test suite passes" line.** CI runs the suites once, and a suite written into a criterion gets run again by the builder and again by the reviewer. In the first program that was 4 to 12 long test runs for one item.
+- **`Floor.`** is the least an item may be routed with: `sonnet` rules out a Composer build, `premise` requires a premise check, and `look` requires a review in a browser. A script refuses any route below it.
+- **`Wait.`** is a deadline, not a soak: the Verify runs right away, then every minute until the deadline.
 
 ### Which Model Does What
 
@@ -139,13 +146,13 @@ This is the one rule the whole kit hangs on, and it's written into the kit's own
 
 Judgment is cheap in a prompt and expensive in code. Code that tries to decide which engine should build an item, or what a failing review means, turns into a pile of special cases. A model handles that well. But a model will also, now and then, skip a step, misread an exit code, or talk itself into something. So the things that **must not slip** live in scripts, and the scripts only ever say no.
 
-Here's how that splits. Each row is a decision the loop makes or a guarantee it keeps, and **Held by** says what's responsible for it:
+Here's how that splits. Each row is a decision the loop makes or a guarantee it keeps, with who's responsible for it:
 
-- **Prompt**: the manager decides, guided by its prompt. Nothing checks the call.
-- **Script**: a script checks it every time and refuses to go on when it doesn't hold. No model can talk its way past it.
+- **Prompt**: a model decides, guided by its prompt or brief. Nothing checks the call.
+- **Script**: a script checks it every time and refuses to go on when the check fails. No model can talk its way past it.
 - **Both**: the manager decides, inside a limit a script enforces.
 
-| Decision or guarantee | Held by |
+| Decision or guarantee | Who's responsible |
 |---|---|
 | Which engine builds an item | Both: prompt picks, script enforces the floor |
 | Moving a failed Composer build to Sonnet | Prompt only; no script checks it |
@@ -156,7 +163,7 @@ Here's how that splits. Each row is a decision the loop makes or a guarantee it 
 | Merging | Script: `hl-merge`, the only path |
 | What a FAIL means | Prompt: rework, a correction, or park |
 | Did the reviewer run the change? | Script: it reads the transcript |
-| Was the review thorough? | Only the reviewer; no script can tell |
+| Was the review thorough? | Prompt: the reviewer's call; no script can tell |
 | Checking the deploy | Script: runs the item's own Verify line |
 | What to do about a red deploy | Prompt: a fix-forward item |
 | Slow CI, idle streams, waits | Both: script reports, prompt acts |
@@ -168,15 +175,16 @@ Here's how that splits. Each row is a decision the loop makes or a guarantee it 
 - the checkout didn't change during the review;
 - the contract is the one that was graded, and the PR head is the graded commit (or the same patch);
 - the reviewer wasn't the builder, and auto-merge isn't armed;
-- the bounds hold, and no protected path is touched;
+- the item is within its limits on builds and reviews, and no protected path is touched;
 - every required check is green, and GitHub doesn't say BLOCKED;
 - no earlier merge in the run is still waiting on its Verify.
 
 Then it takes a lock: a git ref in the target repo (`refs/looprunner/merge-lock`, the same one LoopRunner used, so the two could never merge over each other). Holding it, `hl-merge` squash-merges the exact graded commit, waits until GitHub says MERGED, and releases the lock.
 
-Two examples of why these are scripts:
+Three examples of why these are scripts:
 
-- **What merges is what was graded.** A reviewer grades whatever is in its checkout, and from inside it can't tell whether that's the commit. In a test run, a build's own start-up command copied a working file over a broken one that was in the commit. The reviewer saw a working build and passed it, and that pass would have merged the broken commit. Now `hl-flow review` refuses to start a review on a checkout whose tracked files differ from the commit, before anything is served, and the build goes back with a note. The same gap had a quieter form: a commit pushed after the review, differing only in whitespace, once merged, because the two patches were compared with whitespace left out. In Python an indentation *is* the change, so now they're compared exactly (`git patch-id --verbatim`).
+- **What merges is what was graded.** A reviewer grades whatever is in its checkout, and from inside it can't tell whether that's the commit. In a test run, a build's own start-up command copied a working file over a broken one that was in the commit. The reviewer saw a working build and passed it, and that pass would have merged the broken commit. Now `hl-flow review` refuses to start a review on a checkout whose tracked files differ from the commit, before anything is served, and the build goes back with a note.
+- **Whitespace counts.** A commit pushed after a review once got merged even though it differed from the reviewed one, because the two patches were compared with whitespace left out, and whitespace was the only difference. In Python an indentation *is* the change, so now they're compared exactly (`git patch-id --verbatim`).
 - **Verify.** The deploy check used to be a line the manager would turn into a command. Once it built that command from the wrong field, ran an empty script, and read its exit 0 as a pass. Now `hl-verify` reads the item's own line and runs it as written.
 
 ### Getting a Session Running
@@ -184,10 +192,10 @@ Two examples of why these are scripts:
 A big chunk of the code has nothing to do with judgment. It's the plumbing that gets a session running in a pane in a known state, and it took longer to get right than anything else:
 
 - **Every worker starts bare.** `--setting-sources project,local`, `--strict-mcp-config`, a fixed `--tools` list, and auto-memory off. No hooks, plugins, skills or memory from my own setup leak in, so a builder's context can't follow it into a reviewer. The reviewer gets exactly one MCP server: its own private browser.
-- **Permission prompts are off.** Nobody is there to answer them, so every session runs with Claude Code's permission checks bypassed (you can see it in the screenshots below). That costs isolation: a worker runs as the Mac's user, beside everything else on it. What bounds it is the loop's own GitHub token, which isn't an admin's, and the merge gate.
+- **Permission prompts are off.** Nobody is there to answer them, so every session runs with Claude Code's permission checks bypassed (you can see it in the screenshots below). That costs isolation: a worker runs as the Mac's user, beside everything else on it. What keeps it in check is the loop's own GitHub token, which isn't an admin's, and the merge gate.
 - **The prompt is one line.** `hl-spawn` renders the brief to a file and types `Read <brief> and do exactly what it says.`, capped at 500 characters. Herdr delivers anything longer than roughly 600 characters as pasted content, and Claude is told that pasted content may hold instructions its user didn't write. That's exactly right for a paste, and exactly wrong for a brief.
 - **The folder-trust race.** Claude asks whether you trust a new folder, and the default answer is "No, exit". Herdr reports the agent as ready the moment the dialog is answered, while Claude is still starting, and text typed then gets lost. Sending right away lost 4 of 6 first prompts. Now `hl-spawn` answers only that dialog, waits until the screen shows the real input box, sends with `--wait --until working`, checks the transcript to see that the prompt arrived, and retries up to three times. That got 6 of 6.
-- **Secrets never touch a command line.** A worker pane sources a small env script that asks the secrets keeper for its tokens inside the pane. `hl-spawn` then checks that the agent process actually has them.
+- **Secrets never touch a command line.** A worker pane sources a small env script that asks the secrets keeper (more on it in the 1Password section) for its tokens inside the pane. `hl-spawn` then checks that the agent process actually has them.
 - **Which sign-in.** Claude Code uses the sign-in in whatever config directory `CLAUDE_CONFIG_DIR` names, so `hl-spawn` sets it for every Claude worker and refuses to start one without it. No session lands on my own sign-in by accident.
 - **Leftover processes.** Closing a pane kills the agent, but not a job it backgrounded. On macOS that job gets adopted by launchd and hides from the usual ways of finding it. A builder once left four CPU loops running for nine and a half hours. Now `hl-spawn` points each pane's `ZDOTDIR` at a tiny `.zshenv` that records every shell's pid and start time, and closing the attempt kills exactly those shells' sessions.
 - **A sub-agent guard.** A `PreToolUse` hook rewrites every sub-agent call a worker makes so it runs in the foreground, on the worker's own model, in the worker's own checkout. It isn't proven: on the mini a sub-agent once ran in the background anyway, so worker sub-agents stay off unless a program turns them on.
@@ -210,7 +218,7 @@ The rest is in sections, roughly in the order a manager needs them:
 
 - **The mandate.** Build, review, merge on a pass, confirm the deploy. "You route, arbitrate and record. You do not build, you do not review, and you never write or edit a criterion. Builders build, reviewers judge, one script merges."
 - **Where the truth is.** Run directories first, then GitHub, then Herdr, then the ledger. "A status written anywhere is a claim; the pull request and the run are the fact." And about Herdr: "Its `idle` and `done` prove nothing; a done file does."
-- **Start of every session.** Eight steps: check it's inside Herdr, claim the program, read "Now", release any merge lock a dead session left, reconcile the runs against Herdr and GitHub, check capacity and usage, check the secrets budget, then save, arm its waits, and report.
+- **Start of every session.** Eight steps: check it's inside Herdr, claim the program, read "Now", release any merge lock a dead session left, reconcile the runs against Herdr and GitHub, check capacity and usage, check the secrets budget, then save, start its background waits, and report.
 - **One item**, step by step, including how to read every answer each script gives.
 - **The working sections**: routing, workers and waiting, CI time, trains, pull requests from outside the program, what to do when a stream has nothing to run, and keeping the ledger short.
 - **Rules that are not negotiable.** Only `hl-merge` merges. Never edit a criterion or a verdict. Kill one PID at a time, never by name. Record a defect you notice; don't fix it in passing. "Never say verified unless a script or you ran the check."
@@ -247,7 +255,9 @@ The build brief went from 26 uses of "do not" and "never" to 7, and from 12 proh
 
 > The first set told a worker how, in twelve "do not" lines for a builder and eleven for an evaluator. Two of the evaluator's were read as forbidding the suite a criterion asked for, and cost three grades in the first real program. This set says what is wanted and why, and leaves the how.
 
-The rule I follow now: **a rule leaves a brief only when a script holds it**, and the briefs' README names the script. A rule I took out with no script behind it is listed there as unproven. A few before-and-after pairs:
+That turned out to be one of the biggest lessons of the whole project: these models need context and a clear goal, not step-by-step instructions. I come back to it at the end.
+
+What I do now: **a rule comes out of a brief only when a script enforces it**, and the briefs' README names that script. A rule I took out with no script behind it is listed there as unproven. A few before-and-after pairs:
 
 **Waiting.** The old "bounded" example wasn't bounded.
 
@@ -304,7 +314,7 @@ The manager's own context is the thing that runs out most often. Every `hl-flow 
 
 (Trimmed, with an illustrative value; the field names are real. The other fields report idle streams, clocks the backlog is waiting on, backlog files no run has picked up, and CI time, so the manager hears about them without asking.)
 
-In my programs the hand-over point is **150,000 tokens**, and the kit's default is 200,000. I chose a lower number; anywhere from 200k to 300k is probably fine for most uses.
+In my programs the hand-over point is **150,000 tokens**, lower than the kit's default of 200,000. Anywhere from 200k to 300k is probably fine for most uses.
 
 When the save says `hand_over: true`, and only between steps of an item (a worker can be mid-build, but a merge can't be mid-flight), the manager:
 
@@ -314,7 +324,9 @@ When the save says `hand_over: true`, and only between steps of an item (a worke
 4. releases the claim with a note like `hand-over at 146k tokens`,
 5. says so in one line, and stops.
 
-In practice, most managers go a little before the line. Every save tells the manager its size, and it may only leave between steps, so a manager near the line with a merge coming up leaves first. In one manager's words: "Context is at 141k, close to the 150k hand-over point, and the next steps would cross it. I'll hand over now while only a worker is running and no merge is in flight." On the catalog program, 225 of 260 hand-overs came before 150k, with a median of 143k. The script reports the number, and the manager decides when to go. That's why the note above says 146k.
+In practice, most managers go a little before the line. Every save tells the manager its size, and it may only leave between steps, so a manager near the line with a merge coming up leaves first. In one manager's words: "Context is at 141k, close to the 150k hand-over point, and the next steps would cross it. I'll hand over now while only a worker is running and no merge is in flight."
+
+On the catalog program, 225 of 260 hand-overs came before 150k, with a median of 143k. The script reports the number, and the manager decides when to go. That's why the note above says 146k.
 
 Within five minutes the watchdog sees a released claim and starts a fresh manager with the same prompt. Here's one just after it started:
 
@@ -368,7 +380,7 @@ The manager never polls. For each run it starts one background `hl-wait`, which 
 | `blocked` | a dialog is up |
 | `limit` | the worker's transcript ends in a usage-limit refusal |
 | `stopped` / `quiet` | no progress for 3 minutes (not working) or 10 (looks busy) |
-| `seat` | the watchdog paused the program at a usage limit, or changed its sign-in |
+| `seat` | the watchdog paused the program at a usage limit |
 | `time` | 20 minutes passed: save, and wait again |
 
 Progress is judged from the transcript files, not from Herdr's status. A worker with a sub-agent at work looks frozen if you only watch its own transcript, so the wait checks the sub-agents' transcripts too. Each problem wakes the manager **once**: a manager that looked at a `quiet` worker and decided to keep waiting gets woken next by something new, or by the clock.
@@ -388,9 +400,13 @@ The same idea applies to workers. A builder runs the tests related to what it to
 
 ### Usage Limits
 
-Claude Code passes the status line script each session's usage (`rate_limits.five_hour` and `rate_limits.seven_day`, each with `used_percentage` and `resets_at`), and a shared script writes each reading to a file. Within one window usage only rises, so the highest reading for the latest reset time is the current one. Once per tick, the watchdog merges those readings. When the program's sign-in is full, it pauses the program: the manager closes its Claude workers, saves and stops. Cursor workers keep going, because they don't count against Claude's windows. Once the window resets, the watchdog starts a fresh manager and the program carries on.
+Every seat has a five-hour usage window and a weekly one, and a program that runs for days can fill both.
 
-Two lessons shaped this. First, **a usage limit is never read from the screen.** A warning at 75% of a window isn't a block, and treating one as a block once parked a loop for 58 hours. The real signal is the refusal record in the transcript. Second, old readings were pruned too eagerly at first. With no reading left, the sign-in counted as unknown, and one pause ran **17 hours past its reset**. You can see that gap in the catalog chart further down.
+Claude Code passes the status line script each session's usage (`rate_limits.five_hour` and `rate_limits.seven_day`, each with `used_percentage` and `resets_at`), and a shared script writes each reading to a file. Within one window, usage only rises, so the highest reading for the latest reset time is the current one. Once per tick, the watchdog merges those readings.
+
+When the program's seat fills up, the watchdog pauses the program: the manager closes its Claude workers, saves and stops. Cursor workers keep going, because they don't count against Claude's windows. Once the window resets, the watchdog starts a fresh manager and the program carries on.
+
+Two lessons shaped this. First, **a usage limit is never read from the screen.** A warning at 75% of a window isn't a block, and treating one as a block once parked a loop for 58 hours. The real signal is the refusal record in the transcript. Second, old readings were pruned too eagerly at first. With no reading left, the seat counted as unknown, and one pause ran **17 hours past its reset**. You can see that gap in the catalog chart further down.
 
 ### The Other Quota: 1Password
 
@@ -400,7 +416,7 @@ Now there's a **secrets keeper**: one small process per program that reads each 
 
 ## Where Things Live, and Why
 
-Most of the placements have come up already: the heartbeat in the manager's own save, liveness as a pid plus its start time, the watchdog in launchd with no model, usage pauses by the watchdog alone, secrets in one process's memory, briefs as files, a done file as the only "finished", and the merge lock as a git ref. Four haven't:
+Most of these choices have come up already: the heartbeat in the manager's own save, liveness as a pid plus its start time, the watchdog in launchd with no model, usage pauses by the watchdog alone, secrets in one process's memory, briefs as files, a done file as the only "finished", and the merge lock as a git ref. Four haven't:
 
 - **Loop roots** live in `~/loops/<program>/`, outside my synced git workspace. The sync once reverted a ledger.
 - **The kit** is copied into each root at a pinned commit, so a kit change can't alter a live program mid-item. Restaging installs a new kit between items.
@@ -450,7 +466,7 @@ Almost every rule in this post exists because of a failure. Here they are in one
 - **A stale line in "Now" held a step back for three hours.** *Rewrite it every time.*
 - **A poll outlived its manager by two days.** *Every wait has an end, and a manager stops its own commands before it leaves.*
 - **A manager read an empty script's exit 0 as a passing deploy.** *Run the item's own Verify line, as written.*
-- **Two "do not" lines in the reviewer's brief were read as forbidding the very suite a criterion asked for**, and cost three reviews. *Say what's wanted and why, and let a script hold the rest.*
+- **Two "do not" lines in the reviewer's brief were read as forbidding the very suite a criterion asked for**, and cost three reviews. *Say what's wanted and why, and let a script enforce the rest.*
 
 The pattern I keep seeing: the model is rarely the problem. It does what it's told, sometimes too literally. The failures were nearly all in the environment (binaries, dialogs, quotas, leftover processes) or in instructions that meant something different from what I thought I'd written.
 
@@ -471,9 +487,19 @@ The kit is on GitHub: **[SpaceTerran/herdr-loop](https://github.com/SpaceTerran/
 
 ## Wrapping Up
 
-This started as a way to stop babysitting four sessions at once and turned into the way most of my code gets written. It isn't magic and it isn't free. It's a lot of small, boring scripts that say no, a long prompt that explains why, and a lot of failures written down so they only happen once. If you only take one idea from this post, take the rule: let the model decide, let scripts refuse, and write down which is which.
+This started as a way to stop babysitting four sessions at once and turned into the way most of my code gets written. It isn't magic and it isn't free. It's a lot of small, boring scripts that say no, a long prompt that explains why, and a lot of failures written down so they only happen once. If you take one design idea from this post, take the rule: let the model decide, let scripts refuse, and write down which is which.
 
-It also isn't finished. This is version five, and so far each version has settled down just as a new model or tool release moved what's possible, so I start pushing again.
+### Start Now, and Keep It Light
+
+The other idea isn't technical: start today. Don't wait for the finished version, because there isn't one. I've rebuilt mine several times, and each rebuild started from what the last one taught me, not from a perfect plan.
+
+Start with something small that works, run it on real work, and write down what breaks. Each fix makes the next program a little faster, and that adds up. My first real program merged 44 items in 31 hours. A month later, one program merged 109 in a single day. None of that came from a big design up front. It came from running it, watching it, and fixing what I saw.
+
+It also changed where my time goes. I don't spend my days answering "yes, keep going" in four tabs anymore. I write backlogs, read the ledger, and answer the few questions the manager is allowed to ask. The time that frees up goes to more strategic work: deciding what's worth building, and why.
+
+And keep it light. Not everything needs a ten-page requirements document. The item near the top of this post fits on one screen: what should be true afterward, how to tell, and what it was before. Writing items is still most of the work, but the work is in getting those few lines right, not in writing more of them.
+
+The same goes for instructions. The briefs got better when I stopped telling workers how and started telling them what and why. The newer models are good, and they keep getting better. They need guidance and context, not step-by-step instructions. Give them that, let them do what they do best, and save the hard rules for the few things that must not slip.
 
 ### Tell Me What You'd Change
 
@@ -483,9 +509,9 @@ I'd really like other people's eyes on this. If you run something similar, or yo
 - **The manager's own cost.** In round 3 of the kit comparison, the manager used nearly as many tokens per item as every Claude worker together (0.46M against 0.52M). Is there a cheaper way to do the routing and the bookkeeping without losing the judgment?
 - **Stuck versus busy.** A manager that's alive but stuck costs 45 minutes before the watchdog replaces it. How do you tell a stuck agent from a busy one, from outside, sooner?
 - **Criteria an agent can't game.** Writing items as behavior, with a value from before the change, is most of the work. How do you write yours?
-- **The line itself.** Is there something I've put in a script that you'd trust to a prompt, or the other way round?
+- **The line itself.** Is there something I've put in a script that you'd trust to a prompt, or the other way around?
 
-Drop a comment below, or open an issue on [the kit's repo](https://github.com/SpaceTerran/herdr-loop). I'll fold the good ideas into version six.
+Drop a comment below, or open an issue on [the kit's repo](https://github.com/SpaceTerran/herdr-loop). I'll fold the good ideas into the next version.
 
 <br><br>
 
