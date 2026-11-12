@@ -50,7 +50,7 @@ _Amber means a model decides, blue means a script holds it, grey is something ou
 Three places matter:
 
 - **My laptop** is where I write. Every program starts as a spec file and some backlog files, which I review like any other PR. A script stages the program onto the mini over SSH, and I can attach to Herdr remotely to watch.
-- **The Mac mini** runs everything. Herdr's server, a watchdog per program, Docker for the tests, the manager, and every worker. For sizing: a Claude worker is about 270 MB at start, a Cursor worker 570 MB, and a reviewer's browser 630 MB across nine processes.
+- **The Mac mini** runs everything. Herdr's server, a watchdog per program, Docker for the tests, the manager, and every worker: Claude Code sessions, plus Cursor's command-line agent for some builds. For sizing: a Claude worker is about 270 MB at start, a Cursor worker 570 MB, and a reviewer's browser 630 MB across nine processes.
 - **GitHub** holds the facts: pull requests, required checks, deploy runs, a merge lock, and the program's ledger on its own branch.
 
 Why a Mac mini and not a Linux server? I work on a Mac and like it, so the loop grew up on one. Linux would very likely work fine, with a systemd timer in place of launchd. The one Mac quirk that matters: Claude Code and Cursor keep their sign-ins in the macOS Keychain, and the Keychain is locked over SSH. Neither tool can sign in from an SSH shell, but both work fine inside a Herdr pane on the machine itself. The mini also holds the loop's own Claude sign-in. Mine stays on my laptop, and no program ever runs on it.
@@ -61,6 +61,7 @@ The rest of the post uses these words:
 
 - **Herdr**: a terminal multiplexer for coding agents. Like tmux, it has workspaces, tabs and panes, and its command line can start an agent in a pane, type a prompt into it, read its screen, and say whether it looks idle, working, blocked or done. Those readings are hints, as you'll see.
 - **Kit**: the scripts (all named `hl-…`), the manager prompt and the brief templates. Each program gets its own copy.
+- **Worker**: any session the manager starts: a builder, a reviewer, a premise check or a correction. Most are Claude Code sessions. Some builds go to Cursor's command-line agent instead, which runs Cursor's own model, Composer.
 - **Program**: one body of work, with a spec, some backlog files, one manager and one ledger.
 - **Backlog file**: a markdown file of items (`*-ITEMS.md`), each with a scope, an Accept list and a Verify line.
 - **Item**: one change, which becomes one pull request.
@@ -120,6 +121,8 @@ A few rules make that format work. Accept lines describe behavior, each with a v
 
 ### Which Model Does What
 
+Workers come from two tools: Claude Code, running Claude models, and Cursor's command-line agent, running Cursor's Composer. Cursor is there for cost: it's a cheaper builder, and its tokens don't count against Claude's usage windows. Here's who gets what:
+
 - **The manager** is Claude Opus 5.5 at high effort. It's the only Opus session in a program.
 - **Builders** are Claude Sonnet 5.5 for anything that changes behavior or what a person sees, spans many files, leaves a design choice open, or touches sign-in, money or infrastructure.
 - **Cursor's Composer 2.5** builds only clearly mechanical items: a constant, a rename, a version bump, a string given word for word, a deletion. A Composer build that fails one review is rebuilt on Sonnet.
@@ -136,21 +139,27 @@ This is the one rule the whole kit hangs on, and it's written into the kit's own
 
 Judgment is cheap in a prompt and expensive in code. Code that tries to decide which engine should build an item, or what a failing review means, turns into a pile of special cases. A model handles that well. But a model will also, now and then, skip a step, misread an exit code, or talk itself into something. So the things that **must not slip** live in scripts, and the scripts only ever say no.
 
-| What | Held by |
+Here's how that splits. Each row is a decision the loop makes or a guarantee it keeps, and **Held by** says what's responsible for it:
+
+- **Prompt**: the manager decides, guided by its prompt. Nothing checks the call.
+- **Script**: a script checks it every time and refuses to go on when it doesn't hold. No model can talk its way past it.
+- **Both**: the manager decides, inside a limit a script enforces.
+
+| Decision or guarantee | Held by |
 |---|---|
-| Which engine builds an item | Prompt; a script refuses below the item's floor |
-| Rebuilding a failed Composer build on Sonnet | Prompt only, and I know it |
+| Which engine builds an item | Both: prompt picks, script enforces the floor |
+| Moving a failed Composer build to Sonnet | Prompt only; no script checks it |
 | Model names | Script: read from `program.json`, never typed |
-| How many builds and reviews an item gets | Script: bounds on disk |
-| What to do at the bound | Prompt |
-| Reviewer isn't the builder | Script: session ids compared |
+| How many builds and reviews an item gets | Script: limits counted on disk |
+| What to do when an item hits a limit | Prompt |
+| The reviewer isn't the builder | Script: it compares session ids |
 | Merging | Script: `hl-merge`, the only path |
 | What a FAIL means | Prompt: rework, a correction, or park |
 | Did the reviewer run the change? | Script: it reads the transcript |
-| Was the review thorough? | The reviewer. No script can tell. |
-| Deploy check | Script: the item's own Verify line |
+| Was the review thorough? | Only the reviewer; no script can tell |
+| Checking the deploy | Script: runs the item's own Verify line |
 | What to do about a red deploy | Prompt: a fix-forward item |
-| Slow CI, idle streams, waits | Script reports them, prompt acts |
+| Slow CI, idle streams, waits | Both: script reports, prompt acts |
 
 `hl-merge` is the clearest example. It refuses unless every one of these holds:
 
